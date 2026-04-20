@@ -102,19 +102,21 @@ export const News: React.FC = () => {
     setLoading(true);
     try {
       const res = await fetch(
-        'https://newsdata.io/api/1/news?apikey=pub_84848484848484848484&country=mw&language=en&category=education,business,technology&size=6'
+        'https://newsdata.io/api/1/latest?apikey=pub_6a19650f34d84a36a052170a591e2431&q=malawi%20youth&language=en&size=10'
       );
       if (res.ok) {
         const data = await res.json();
         if (data.results?.length) {
           const mapped = data.results.map((r: any) => ({
-            title: r.title,
-            description: r.description || '',
-            source: { name: r.source_id || 'News' },
-            publishedAt: r.pubDate,
-            url: r.link,
+            title: r.title || 'Untitled',
+            description: r.description || r.content?.slice(0, 180) || 'Read the full story for more details.',
+            source: { name: r.source_id || 'NewsData' },
+            publishedAt: r.pubDate || new Date().toISOString(),
+            url: r.link || '#',
             urlToImage: r.image_url || 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&q=80',
-            category: r.category?.[0] || 'Education',
+            category: r.category?.[0]
+              ? r.category[0].charAt(0).toUpperCase() + r.category[0].slice(1)
+              : 'Education',
           }));
           setArticles(mapped);
         }
