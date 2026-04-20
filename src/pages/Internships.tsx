@@ -1,56 +1,92 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { AnimatedLayout } from '../components/AnimatedLayout';
-import { Building2, Briefcase, MapPin, Search, CheckCircle } from 'lucide-react';
+import { MapPin, Clock, Briefcase, CheckCircle, Search, Star, ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
+
+const INTERNSHIPS = [
+  { id: 1, role: 'Software Engineering Intern', company: 'Standard Bank Malawi', loc: 'Lilongwe', type: 'Paid', duration: '3 months', color: '#007bff', logo: '🏦', stipend: 'Mk 45,000/mo', deadline: 'May 30, 2026', skills: ['React', 'Python', 'SQL'] },
+  { id: 2, role: 'Agriculture Extension Officer Trainee', company: 'Illovo Sugar Malawi', loc: 'Chikwawa', type: 'Paid', duration: '6 months', color: '#4c9f38', logo: '🌿', stipend: 'Mk 35,000/mo', deadline: 'June 15, 2026', skills: ['Agronomy', 'Field Research', 'Reporting'] },
+  { id: 3, role: 'Data Analysis Trainee', company: 'Airtel Malawi', loc: 'Blantyre', type: 'Paid', duration: '4 months', color: '#cc0000', logo: '📡', stipend: 'Mk 50,000/mo', deadline: 'May 15, 2026', skills: ['Excel', 'Power BI', 'Statistics'] },
+  { id: 4, role: 'Clinical Nursing Trainee', company: 'Kamuzu Central Hospital', loc: 'Lilongwe', type: 'Stipend', duration: '6 months', color: '#d4af37', logo: '🏥', stipend: 'Mk 20,000/mo', deadline: 'June 1, 2026', skills: ['Patient Care', 'Clinical Skills', 'Documentation'] },
+  { id: 5, role: 'Finance & Accounting Intern', company: 'FDH Bank', loc: 'Blantyre', type: 'Paid', duration: '3 months', color: '#26bde2', logo: '💰', stipend: 'Mk 40,000/mo', deadline: 'May 20, 2026', skills: ['IFRS', 'Excel', 'Bookkeeping'] },
+  { id: 6, role: 'Environmental Research Assistant', company: 'LUANAR', loc: 'Lilongwe', type: 'Academic Credit', duration: '4 months', color: '#4c9f38', logo: '🌍', stipend: 'Academic Credit', deadline: 'Ongoing', skills: ['Research Methods', 'Field Work', 'GIS'] },
+];
+
+const PARTNERS = [
+  { name: 'Standard Bank', color: '#007bff' }, { name: 'Airtel Malawi', color: '#cc0000' },
+  { name: 'TNM', color: '#ffd700' }, { name: 'Illovo Sugar', color: '#4c9f38' },
+  { name: 'FDH Bank', color: '#26bde2' }, { name: 'LUANAR', color: '#d4af37' },
+  { name: 'MUBAS', color: '#cc0000' }, { name: 'MUST', color: '#a21942' },
+];
+
+const STEPS = [
+  { icon: <Search size={22} />, title: 'Browse Listings', desc: 'Filter internships by field, location, duration, and stipend. All listings are verified by our team.' },
+  { icon: <CheckCircle size={22} />, title: 'Verify Your Profile', desc: 'Submit your student ID and academic transcript. University admin confirms your standing within 48 hours.' },
+  { icon: <Briefcase size={22} />, title: 'Apply & Connect', desc: 'Apply with one click. We connect you directly with the company HR contact.' },
+  { icon: <Star size={22} />, title: 'Get Funded', desc: 'Donors fund your transport and setup costs. Focus on learning — not logistics.' },
+];
 
 export const Internships: React.FC = () => {
+  const [search, setSearch] = useState('');
+  const filtered = INTERNSHIPS.filter(i => i.role.toLowerCase().includes(search.toLowerCase()) || i.company.toLowerCase().includes(search.toLowerCase()) || i.loc.toLowerCase().includes(search.toLowerCase()));
+
   return (
     <AnimatedLayout>
-      {/* Floating Bubbles Hero */}
-      <section style={{ position: 'relative', minHeight: '50vh', background: '#111', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <div style={{ position: 'absolute', inset: 0, opacity: 0.1, backgroundImage: 'url("https://images.unsplash.com/photo-1544207959-195cce28e08d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80")', backgroundSize: 'cover', backgroundPosition: 'center' }} />
-        
-        {/* Floating Bubbles */}
-        <div className="animate-float" style={{ position: 'absolute', top: '20%', left: '10%', width: '100px', height: '100px', borderRadius: '50%', background: 'rgba(255,255,255,0.05)', border: '1px solid #4c9f38', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#4c9f38', fontWeight: 'bold' }}>Airtel</div>
-        <div className="animate-float-delayed" style={{ position: 'absolute', bottom: '20%', right: '15%', width: '120px', height: '120px', borderRadius: '50%', background: 'rgba(255,255,255,0.05)', border: '1px solid #007bff', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#007bff', fontWeight: 'bold' }}>FDH Bank</div>
-        <div className="animate-float" style={{ position: 'absolute', top: '30%', right: '25%', width: '80px', height: '80px', borderRadius: '50%', background: 'rgba(255,255,255,0.05)', border: '1px solid #e5243b', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#e5243b', fontWeight: 'bold', animationDuration: '8s' }}>TNM</div>
-        <div className="animate-float-delayed" style={{ position: 'absolute', bottom: '30%', left: '20%', width: '90px', height: '90px', borderRadius: '50%', background: 'rgba(255,255,255,0.05)', border: '1px solid #dda63a', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#dda63a', fontWeight: 'bold', animationDuration: '5s' }}>Illovo</div>
+      {/* ── HERO ─────────────────────────────────────── */}
+      <section style={{ position: 'relative', minHeight: '60vh', background: '#050505', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'url("/graduation.png")', backgroundSize: 'cover', backgroundPosition: 'center top', opacity: 0.25 }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at center, rgba(212,175,55,0.08) 0%, transparent 70%)' }} />
 
-        <div style={{ position: 'relative', zIndex: 1, textAlign: 'center', padding: '2rem' }}>
-          <h1 style={{ fontSize: '3rem', color: 'white', marginBottom: '1rem' }}>Launch Your Career</h1>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '1.2rem', maxWidth: '600px', margin: '0 auto' }}>
-            We connect Malawi's brightest students with top companies for paid internships and graduate trainee programs.
-          </p>
+        {/* Floating company bubbles */}
+        {PARTNERS.slice(0, 4).map((p, i) => (
+          <div key={i} className={i % 2 === 0 ? 'animate-float' : 'animate-float-delayed'} style={{
+            position: 'absolute',
+            top: `${15 + (i * 20)}%`, left: i < 2 ? `${5 + i * 10}%` : undefined, right: i >= 2 ? `${5 + (i - 2) * 12}%` : undefined,
+            width: '90px', height: '90px', borderRadius: '50%',
+            background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(8px)',
+            border: `2px solid ${p.color}66`, display: 'flex', alignItems: 'center', justifyContent: 'center',
+            color: p.color, fontWeight: 800, fontSize: '0.65rem', textAlign: 'center', padding: '0.5rem',
+            zIndex: 0,
+          }}>{p.name}</div>
+        ))}
+
+        <div style={{ position: 'relative', zIndex: 1, textAlign: 'center', padding: '5rem 1.25rem 3rem' }}>
+          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
+            <div className="section-label" style={{ margin: '0 auto 1.5rem' }}>🎓 Career Launch</div>
+            <h1 style={{ fontSize: 'clamp(2.5rem, 7vw, 4.5rem)', marginBottom: '1.25rem' }}>
+              Your First Step Into<br />
+              <span style={{ color: 'var(--color-primary)' }}>Professional</span>{' '}
+              <span style={{ color: 'var(--color-gold)' }}>Excellence</span>
+            </h1>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '1.15rem', maxWidth: '600px', margin: '0 auto 2.5rem', lineHeight: 1.7 }}>
+              We connect Malawi's brightest students with top companies for funded internships. Your transport and setup costs? Covered by our donors.
+            </p>
+            <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+              <a href="#listings" className="pill-btn" style={{ maxWidth: '200px' }}>Browse Internships</a>
+              <Link to="/donate" className="pill-btn pill-btn-ghost" style={{ maxWidth: '220px' }}>Fund an Internship <ArrowRight size={16} /></Link>
+            </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* The Journey Timeline */}
-      <section style={{ padding: '4rem 1rem', background: '#000' }}>
+      {/* ── HOW IT WORKS ──────────────────────────────── */}
+      <section style={{ padding: '5rem 1.25rem', background: '#000' }}>
         <div className="container">
-          <h2 style={{ fontSize: '2rem', textAlign: 'center', marginBottom: '3rem' }}>The Journey</h2>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', position: 'relative', maxWidth: '600px', margin: '0 auto' }}>
-            {/* Vertical Line */}
-            <div style={{ position: 'absolute', left: '24px', top: 0, bottom: 0, width: '2px', background: 'rgba(255,255,255,0.1)' }} />
-            
-            {[
-              { icon: <Search size={20} />, title: 'Find Opportunities', desc: 'Browse internships across Malawi tailored to your degree.' },
-              { icon: <CheckCircle size={20} />, title: 'Get Verified', desc: 'University administration verifies your academic standing.' },
-              { icon: <Briefcase size={20} />, title: 'Start Internship', desc: 'Begin your professional journey with stipends funded by donors.' }
-            ].map((step, i) => (
-              <motion.div 
-                initial={{ opacity: 0, x: -50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.2 }}
-                key={i} 
-                style={{ display: 'flex', gap: '1.5rem', position: 'relative', zIndex: 1 }}
-              >
-                <div style={{ width: '50px', height: '50px', borderRadius: '50%', background: 'var(--color-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, border: '4px solid #000' }}>
-                  {step.icon}
+          <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
+            <div className="section-label" style={{ margin: '0 auto 1rem' }}>The Journey</div>
+            <h2 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.6rem)' }}>How to <span style={{ color: 'var(--color-gold)' }}>Get Started</span></h2>
+          </div>
+          <div className="grid-4">
+            {STEPS.map((s, i) => (
+              <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.12 }}
+                style={{ display: 'flex', gap: '1.25rem', position: 'relative', zIndex: 1 }}>
+                <div style={{ width: '50px', height: '50px', borderRadius: '50%', background: i % 2 === 0 ? 'var(--gradient-blue)' : 'var(--gradient-gold)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, color: i % 2 === 0 ? 'white' : 'black', boxShadow: i % 2 === 0 ? 'var(--shadow-blue)' : 'var(--shadow-gold)' }}>
+                  {s.icon}
                 </div>
-                <div className="glass-panel" style={{ padding: '1.5rem', flex: 1 }}>
-                  <h3 style={{ fontSize: '1.2rem', marginBottom: '0.5rem' }}>{step.title}</h3>
-                  <p style={{ color: 'var(--text-secondary)', margin: 0, fontSize: '0.9rem' }}>{step.desc}</p>
+                <div>
+                  <h3 style={{ fontSize: '1.05rem', marginBottom: '0.4rem' }}>{s.title}</h3>
+                  <p style={{ color: 'var(--text-secondary)', fontSize: '0.88rem', margin: 0, lineHeight: 1.6 }}>{s.desc}</p>
                 </div>
               </motion.div>
             ))}
@@ -58,33 +94,73 @@ export const Internships: React.FC = () => {
         </div>
       </section>
 
-      {/* Current Listings Grid */}
-      <section style={{ padding: '2rem 1rem 6rem', background: '#000' }}>
-        <div className="container">
-          <h2 style={{ fontSize: '2rem', marginBottom: '2rem' }}>Featured Listings</h2>
-          <div className="category-grid">
-            {[
-              { role: 'Software Engineering Intern', company: 'Standard Bank', loc: 'Lilongwe', color: '#007bff' },
-              { role: 'Agriculture Extension Officer', company: 'Illovo Sugar', loc: 'Chikwawa', color: '#4c9f38' },
-              { role: 'Data Analysis Trainee', company: 'Airtel Malawi', loc: 'Blantyre', color: '#e5243b' },
-            ].map((job, idx) => (
-              <div key={idx} className="glass-panel" style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column' }}>
-                <div style={{ width: '40px', height: '40px', borderRadius: '8px', background: job.color, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1rem' }}>
-                  <Building2 size={20} color="white" />
-                </div>
-                <h3 style={{ fontSize: '1.2rem', marginBottom: '0.5rem' }}>{job.role}</h3>
-                <div style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem', fontSize: '0.9rem' }}>
-                  <span style={{ fontWeight: 'bold' }}>{job.company}</span> • <MapPin size={12} style={{ display: 'inline' }} /> {job.loc}
-                </div>
-                <button className="pill-btn" style={{ width: '100%', marginTop: 'auto', background: 'rgba(255,255,255,0.1)', color: 'white', border: '1px solid #333' }}>
-                  Apply Now
-                </button>
-              </div>
+      {/* ── PARTNER STRIP ─────────────────────────────── */}
+      <section style={{ padding: '2.5rem 1.25rem', background: '#0a0a0a', borderTop: '1px solid #1a1a1a', borderBottom: '1px solid #1a1a1a' }}>
+        <div className="container" style={{ textAlign: 'center' }}>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', marginBottom: '1.5rem', textTransform: 'uppercase', letterSpacing: '2px' }}>Trusted Employer Partners</p>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem', justifyContent: 'center' }}>
+            {PARTNERS.map((p, i) => (
+              <motion.div key={i} whileHover={{ scale: 1.08 }} className="chip glass-panel" style={{ padding: '0.5rem 1.2rem', background: `${p.color}15`, border: `1px solid ${p.color}44`, color: p.color, fontSize: '0.85rem' }}>
+                {p.name}
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
+      {/* ── LISTINGS ─────────────────────────────────── */}
+      <section id="listings" style={{ padding: '4rem 1.25rem 7rem', background: '#000' }}>
+        <div className="container">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem', flexWrap: 'wrap', gap: '1rem' }}>
+            <h2 style={{ fontSize: 'clamp(1.8rem, 3vw, 2.4rem)' }}>Featured <span style={{ color: 'var(--color-gold)' }}>Listings</span></h2>
+            <div style={{ position: 'relative' }}>
+              <Search size={15} style={{ position: 'absolute', left: '0.9rem', top: '50%', transform: 'translateY(-50%)', color: '#555' }} />
+              <input className="form-input" value={search} onChange={e => setSearch(e.target.value)} placeholder="Search roles or companies..." style={{ paddingLeft: '2.3rem', width: '280px' }} />
+            </div>
+          </div>
+
+          <div className="grid-3">
+            {filtered.map((job, idx) => (
+              <motion.div key={job.id} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: idx * 0.08 }}
+                className="glass-panel" style={{ padding: '1.75rem', display: 'flex', flexDirection: 'column', borderTop: `3px solid ${job.color}` }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
+                  <div style={{ fontSize: '2.5rem', lineHeight: 1 }}>{job.logo}</div>
+                  <span className="chip" style={{ background: job.type === 'Paid' ? 'rgba(76,159,56,0.15)' : 'rgba(212,175,55,0.15)', color: job.type === 'Paid' ? '#4c9f38' : '#d4af37', border: `1px solid ${job.type === 'Paid' ? '#4c9f3644' : '#d4af3744'}` }}>
+                    {job.type}
+                  </span>
+                </div>
+                <h3 style={{ fontSize: '1.1rem', marginBottom: '0.4rem', lineHeight: 1.3 }}>{job.role}</h3>
+                <div style={{ fontWeight: 700, color: job.color, marginBottom: '0.75rem' }}>{job.company}</div>
+                <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', fontSize: '0.82rem', color: 'var(--text-secondary)', marginBottom: '1rem' }}>
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><MapPin size={12} />{job.loc}</span>
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><Clock size={12} />{job.duration}</span>
+                </div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem', marginBottom: '1rem' }}>
+                  {job.skills.map(sk => (
+                    <span key={sk} className="chip" style={{ background: 'rgba(255,255,255,0.06)', color: 'var(--text-secondary)', fontSize: '0.72rem', padding: '0.2rem 0.6rem' }}>{sk}</span>
+                  ))}
+                </div>
+                <div style={{ marginTop: 'auto' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.82rem', marginBottom: '1rem' }}>
+                    <span style={{ color: 'var(--color-gold)', fontWeight: 700 }}>{job.stipend}</span>
+                    <span style={{ color: 'var(--text-secondary)' }}>Deadline: {job.deadline}</span>
+                  </div>
+                  <button className="pill-btn" style={{ width: '100%', background: `linear-gradient(135deg, ${job.color}, ${job.color}99)` }}>
+                    Apply Now <ArrowRight size={15} />
+                  </button>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          {filtered.length === 0 && (
+            <div style={{ textAlign: 'center', padding: '4rem 0', color: 'var(--text-secondary)' }}>
+              <p>No listings match your search.</p>
+              <button onClick={() => setSearch('')} className="pill-btn" style={{ maxWidth: '180px', margin: '1rem auto 0' }}>Clear</button>
+            </div>
+          )}
+        </div>
+      </section>
     </AnimatedLayout>
   );
 };

@@ -1,136 +1,129 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AnimatedLayout } from '../components/AnimatedLayout';
-import { MapPin } from 'lucide-react';
+import { MapPin, Heart, Search, Filter } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-const MOCK_CAMPAIGNS = [
-  { id: 1, cat: '4 Quality Education', title: 'Fund Final Year UNIMA Fees', student: 'Chikondi M.', location: 'Zomba', progress: 75, color: '#c5192d' },
-  { id: 2, cat: '9 Innovation', title: 'ICT Equipment for Rural Lab', student: 'Mzuzu Tech Club', location: 'Mzuzu', progress: 40, color: '#fd6925' },
-  { id: 3, cat: '1 No Poverty', title: 'Basic Needs & Housing Support', student: 'Yamikani D.', location: 'Lilongwe', progress: 90, color: '#e5243b' },
-  { id: 4, cat: '3 Good Health', title: 'Medical Internship Travel', student: 'Dr. Thandi', location: 'Blantyre', progress: 60, color: '#4c9f38' },
-  { id: 5, cat: '8 Decent Work', title: 'Startup Capital for Agribusiness', student: 'LUANAR Grads', location: 'Lilongwe', progress: 25, color: '#a21942' },
+const ALL_CAMPAIGNS = [
+  { id: 1, cat: 'Education', tag: '🎓', title: 'Fund Final Year UNIMA Fees', student: 'Chikondi M.', location: 'Zomba', progress: 75, color: '#cc0000', goal: 'Mk 85,000', img: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&q=80', urgent: true },
+  { id: 2, cat: 'Technology', tag: '💻', title: 'ICT Equipment for Rural Computer Lab', student: 'Mzuzu Tech Club', location: 'Mzuzu', progress: 40, color: '#d4af37', goal: 'Mk 350,000', img: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600&q=80', urgent: false },
+  { id: 3, cat: 'Housing', tag: '🏠', title: 'Emergency Hostel Fees & Housing', student: 'Yamikani D.', location: 'Lilongwe', progress: 90, color: '#cc0000', goal: 'Mk 35,000', img: 'https://images.unsplash.com/photo-1544207959-195cce28e08d?w=600&q=80', urgent: true },
+  { id: 4, cat: 'Medical', tag: '🏥', title: 'Medical Internship Travel Costs', student: 'Dr. Thandi N.', location: 'Blantyre', progress: 60, color: '#4c9f38', goal: 'Mk 45,000', img: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=600&q=80', urgent: false },
+  { id: 5, cat: 'Education', tag: '🎓', title: 'Startup Capital – Agribusiness Grad', student: 'LUANAR Grads', location: 'Lilongwe', progress: 25, color: '#cc0000', goal: 'Mk 200,000', img: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=600&q=80', urgent: false },
+  { id: 6, cat: 'Technology', tag: '💻', title: 'Laptop for CompSci Final Project', student: 'Dalitso K.', location: 'Blantyre', progress: 55, color: '#d4af37', goal: 'Mk 120,000', img: 'https://images.unsplash.com/photo-1606761568499-6d2451b23c66?w=600&q=80', urgent: true },
+  { id: 7, cat: 'Books', tag: '📚', title: 'Textbooks & Study Materials', student: 'Mary C.', location: 'Zomba', progress: 80, color: '#ff6b35', goal: 'Mk 25,000', img: 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=600&q=80', urgent: false },
+  { id: 8, cat: 'Medical', tag: '🏥', title: 'Nursing School Registration Fees', student: 'Faith B.', location: 'Mzuzu', progress: 30, color: '#4c9f38', goal: 'Mk 55,000', img: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=600&q=80', urgent: true },
 ];
 
-export const Campaigns: React.FC = () => {
-  const [activeFilter, setActiveFilter] = useState('All Goals');
+const FILTERS = ['All', 'Education', 'Technology', 'Housing', 'Medical', 'Books'];
 
-  const filteredCampaigns = MOCK_CAMPAIGNS.filter(
-    (c) => activeFilter === 'All Goals' || c.cat === activeFilter
-  );
+export const Campaigns: React.FC = () => {
+  const [activeFilter, setActiveFilter] = useState('All');
+  const [search, setSearch] = useState('');
+
+  const filtered = ALL_CAMPAIGNS.filter(c => {
+    const matchCat = activeFilter === 'All' || c.cat === activeFilter;
+    const matchSearch = c.title.toLowerCase().includes(search.toLowerCase()) || c.student.toLowerCase().includes(search.toLowerCase());
+    return matchCat && matchSearch;
+  });
 
   return (
     <AnimatedLayout>
-      {/* Campaign of the Week (Parallax) */}
-      <section style={{
-        position: 'relative',
-        minHeight: '60vh',
-        backgroundImage: 'url("https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80")',
-        backgroundAttachment: 'fixed',
-        backgroundPosition: 'center',
-        backgroundSize: 'cover',
-        display: 'flex',
-        alignItems: 'flex-end',
-        padding: '2rem 1rem'
-      }}>
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.9), transparent)' }} />
-        
+      {/* ── HERO ─────────────────────────────────────── */}
+      <section style={{ position: 'relative', minHeight: '55vh', backgroundImage: 'url("/community-school.png")', backgroundSize: 'cover', backgroundPosition: 'center', backgroundAttachment: 'fixed', display: 'flex', alignItems: 'flex-end', padding: '3rem 1.25rem' }}>
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.92) 100%)' }} />
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>
-          <div style={{ background: 'var(--color-primary)', color: 'white', display: 'inline-block', padding: '0.5rem 1rem', borderRadius: '20px', fontWeight: 'bold', marginBottom: '1rem', fontSize: '0.8rem', textTransform: 'uppercase' }}>
-            Campaign of the Week
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
+            <div className="section-label" style={{ marginBottom: '1rem' }}>🔴 Active Campaigns</div>
+            <h1 style={{ fontSize: 'clamp(2.2rem, 6vw, 4rem)', color: 'white', marginBottom: '1rem' }}>
+              Fund a <span style={{ color: 'var(--color-primary)' }}>Real</span> Student,<br />
+              Change a <span style={{ color: 'var(--color-gold)' }}>Real Life</span>
+            </h1>
+            <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '1.1rem', maxWidth: '580px', marginBottom: '2rem' }}>
+              Every campaign is a verified student with a real need. Browse, choose who you want to support, and pay in seconds.
+            </p>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ── SEARCH + FILTER BAR ───────────────────────── */}
+      <section style={{ position: 'sticky', top: '70px', zIndex: 40, background: 'rgba(0,0,0,0.95)', backdropFilter: 'blur(16px)', borderBottom: '1px solid #1a1a1a', padding: '1rem 1.25rem' }}>
+        <div className="container">
+          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', alignItems: 'center' }}>
+            <div style={{ position: 'relative', flex: 1, minWidth: '200px' }}>
+              <Search size={16} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: '#555' }} />
+              <input className="form-input" value={search} onChange={e => setSearch(e.target.value)} placeholder="Search campaigns, students..." style={{ paddingLeft: '2.5rem' }} />
+            </div>
+            <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+              <Filter size={16} style={{ color: '#555', alignSelf: 'center' }} />
+              {FILTERS.map(f => (
+                <button key={f} onClick={() => setActiveFilter(f)} style={{
+                  padding: '0.5rem 1rem', borderRadius: '50px', border: 'none', cursor: 'pointer', fontWeight: 600, fontSize: '0.85rem', transition: 'all 0.2s',
+                  background: activeFilter === f ? 'var(--color-primary)' : 'rgba(255,255,255,0.07)',
+                  color: activeFilter === f ? 'white' : 'var(--text-secondary)',
+                  boxShadow: activeFilter === f ? 'var(--shadow-blue)' : 'none',
+                }}>{f}</button>
+              ))}
+            </div>
           </div>
-          <h1 style={{ fontSize: '3rem', color: 'white', marginBottom: '1rem', lineHeight: 1.1 }}>Rebuilding Ndirande Community School</h1>
-          <p style={{ color: 'rgba(255,255,255,0.9)', fontSize: '1.2rem', maxWidth: '600px', marginBottom: '2rem' }}>
-            Help us raise Mk2,000,000 to replace the roof blown off during the recent heavy rains before the new term begins.
-          </p>
-          <Link to="/donate" className="pill-btn" style={{ background: 'white', color: 'black', fontSize: '1.1rem', padding: '1rem 2rem' }}>
-            Support Ndirande Now
-          </Link>
         </div>
       </section>
 
-      {/* Filter Chips */}
-      <section style={{ padding: '2rem 1rem 1rem', background: '#000', overflowX: 'auto', whiteSpace: 'nowrap', position: 'sticky', top: '70px', zIndex: 10, borderBottom: '1px solid #222' }}>
-        <div style={{ display: 'flex', gap: '0.8rem', paddingBottom: '1rem', maxWidth: '1200px', margin: '0 auto' }}>
-          {['All Goals', '1 No Poverty', '3 Good Health', '4 Quality Education', '8 Decent Work', '9 Innovation'].map((cat) => (
-            <button 
-              key={cat} 
-              onClick={() => setActiveFilter(cat)}
-              style={{
-                background: activeFilter === cat ? 'white' : 'rgba(255,255,255,0.1)',
-                color: activeFilter === cat ? 'black' : 'white',
-                padding: '0.6rem 1.2rem',
-                borderRadius: '20px',
-                fontSize: '0.9rem',
-                fontWeight: 600,
-                flexShrink: 0,
-                border: 'none',
-                cursor: 'pointer',
-                transition: 'all 0.3s'
-              }}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
-      </section>
-
-      {/* Shuffling Grid */}
-      <section style={{ padding: '2rem 1rem 6rem', background: '#000', minHeight: '50vh' }}>
-        <motion.div layout className="container category-grid">
-          <AnimatePresence>
-            {filteredCampaigns.map((item) => (
-              <motion.div 
-                layout
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.8 }}
-                transition={{ duration: 0.3 }}
-                key={item.id} 
-                style={{ background: '#1a1a1a', borderRadius: '16px', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}
-              >
-                <div style={{ padding: '0.5rem 1rem', background: item.color, color: 'white', fontWeight: 800, fontSize: '0.9rem' }}>
-                  {item.cat}
-                </div>
-                <div style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', flex: 1 }}>
-                  <h3 style={{ fontSize: '1.3rem', marginBottom: '0.5rem' }}>{item.title}</h3>
-                  <div style={{ display: 'flex', gap: '1rem', color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '1.5rem' }}>
-                    <span>{item.student}</span>
-                    <span style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}><MapPin size={14} /> {item.location}</span>
-                  </div>
-                  
-                  <div style={{ marginBottom: '1.5rem', marginTop: 'auto' }}>
-                    <div style={{ width: '100%', height: '6px', background: 'rgba(255,255,255,0.1)', borderRadius: '3px', overflow: 'hidden' }}>
-                      <motion.div 
-                        initial={{ width: 0 }}
-                        whileInView={{ width: `${item.progress}%` }}
-                        transition={{ duration: 1, delay: 0.2 }}
-                        style={{ height: '100%', background: item.color }}
-                      />
+      {/* ── CAMPAIGN GRID ─────────────────────────────── */}
+      <section style={{ padding: '2.5rem 1.25rem 7rem', background: '#000', minHeight: '60vh' }}>
+        <div className="container">
+          <div style={{ marginBottom: '1.5rem', color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
+            Showing <strong style={{ color: 'white' }}>{filtered.length}</strong> campaigns
+          </div>
+          <motion.div layout className="grid-3">
+            <AnimatePresence>
+              {filtered.map(item => (
+                <motion.div layout key={item.id} initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }} transition={{ duration: 0.3 }} className="campaign-card">
+                  <div style={{ position: 'relative' }}>
+                    <img src={item.img} alt={item.title} />
+                    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(0deg,rgba(0,0,0,0.5) 0%,transparent 50%)' }} />
+                    {item.urgent && (
+                      <div className="animate-pulse-ring" style={{ position: 'absolute', top: '0.75rem', right: '0.75rem', background: 'var(--color-primary)', color: 'white', padding: '0.25rem 0.6rem', borderRadius: '50px', fontSize: '0.7rem', fontWeight: 800, textTransform: 'uppercase' }}>
+                        Urgent
+                      </div>
+                    )}
+                    <div style={{ position: 'absolute', bottom: '0.75rem', left: '0.75rem', display: 'flex', gap: '0.4rem' }}>
+                      <span className="chip" style={{ background: `${item.color}dd`, color: 'white' }}>{item.tag} {item.cat}</span>
                     </div>
                   </div>
+                  <div className="card-body">
+                    <h3 style={{ fontSize: '1.1rem', marginBottom: '0.4rem', lineHeight: 1.3 }}>{item.title}</h3>
+                    <div style={{ display: 'flex', gap: '1rem', color: 'var(--text-secondary)', fontSize: '0.85rem', marginBottom: '0.25rem' }}>
+                      <span>{item.student}</span>
+                      <span style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                        <MapPin size={12} />{item.location}
+                      </span>
+                    </div>
+                    <div className="progress-bar">
+                      <motion.div className="progress-fill" initial={{ width: 0 }} whileInView={{ width: `${item.progress}%` }} viewport={{ once: true }} transition={{ duration: 1.2, ease: 'easeOut' }}
+                        style={{ background: `linear-gradient(90deg, ${item.color}, ${item.color}88)` }} />
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.82rem', marginBottom: '1.25rem' }}>
+                      <span style={{ color: 'var(--text-secondary)' }}>Goal: {item.goal}</span>
+                      <span style={{ color: item.color, fontWeight: 700 }}>{item.progress}%</span>
+                    </div>
+                    <Link to="/donate" className="pill-btn" style={{ background: `linear-gradient(135deg, ${item.color}, ${item.color}88)` }}>
+                      <Heart size={15} fill="white" /> Support Now
+                    </Link>
+                  </div>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </motion.div>
 
-                  <Link to="/donate" className="pill-btn" style={{ background: item.color, width: '100%', textAlign: 'center' }}>
-                    Support Now
-                  </Link>
-                </div>
-              </motion.div>
-            ))}
-          </AnimatePresence>
-        </motion.div>
+          {filtered.length === 0 && (
+            <div style={{ textAlign: 'center', padding: '4rem 0', color: 'var(--text-secondary)' }}>
+              <p style={{ fontSize: '1.1rem' }}>No campaigns match your search.</p>
+              <button onClick={() => { setActiveFilter('All'); setSearch(''); }} className="pill-btn" style={{ maxWidth: '200px', margin: '1.5rem auto 0' }}>Clear Filters</button>
+            </div>
+          )}
+        </div>
       </section>
-      
-      {/* FAB */}
-      <div style={{ position: 'fixed', bottom: '90px', right: '20px', zIndex: 90 }}>
-        <button style={{
-          width: '56px', height: '56px', borderRadius: '28px', background: 'white', color: 'black',
-          display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 12px rgba(0,0,0,0.5)',
-          fontSize: '2.5rem', fontWeight: 300, lineHeight: 1, border: 'none', cursor: 'pointer'
-        }}>
-          +
-        </button>
-      </div>
-
     </AnimatedLayout>
   );
 };

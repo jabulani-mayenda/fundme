@@ -11,9 +11,7 @@ interface AuthContextType {
 }
 
 const AuthContext = createContext<AuthContextType>({
-  session: null,
-  user: null,
-  isLoading: true,
+  session: null, user: null, isLoading: true,
   signInWithGoogle: async () => {},
   signOut: async () => {},
 });
@@ -40,11 +38,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, []);
 
   const signInWithGoogle = async () => {
+    // Dynamically use the current origin so it works on localhost AND on Vercel
+    const redirectTo = `${window.location.origin}/dashboard`;
     await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: window.location.origin + '/dashboard'
-      }
+        redirectTo,
+        queryParams: {
+          access_type: 'offline',
+          prompt: 'consent',
+        },
+      },
     });
   };
 
