@@ -16,16 +16,16 @@ const HALL = [
   { year: '2025', category: 'Tech Excellence', name: 'Grace Mwanza', uni: 'MUBAS', color: '#007bff', story: 'Developed a mobile app for maternal health tracking used in 12 clinics across Malawi.', img: 'https://images.unsplash.com/photo-1589156229687-496a31ad1d1f?w=400&q=80' },
   { year: '2025', category: 'Community Health', name: 'Dr. Peter Banda', uni: 'KUHeS', color: '#4c9f38', story: 'Designed a low-cost water purification system now deployed in 30 rural schools.', img: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=400&q=80' },
   { year: '2024', category: 'Agri-Business', name: 'Tiwonge Phiri', uni: 'LUANAR', color: '#d4af37', story: 'Created a cooperative model connecting 200 smallholder farmers to export markets.', img: 'https://images.unsplash.com/photo-1506634572416-48cdfe7683b8?w=400&q=80' },
-  { year: '2024', category: 'Social Impact', name: 'Blessings K.', uni: 'UNIMA', color: '#cc0000', story: 'Founded a free tutoring network that helped 800 secondary school students pass their MSCE.', img: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=400&q=80' },
+  { year: '2024', category: 'Social Impact', name: 'Blessings K.', uni: 'UNIMA', color: 'var(--color-primary)', story: 'Founded a free tutoring network that helped 800 secondary school students pass their MSCE.', img: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=400&q=80' },
   { year: '2023', category: 'Climate Action', name: 'Mercy Lungu', uni: 'MUST', color: '#26bde2', story: 'Invented a biogas digester using maize cobs, now reducing deforestation in 5 districts.', img: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=400&q=80' },
   { year: '2023', category: 'Education Champion', name: 'Isaac Chirwa', uni: 'Domasi College', color: '#dd1367', story: 'Built a radio-based learning program reaching 15,000 students without internet access.', img: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&q=80' },
 ];
 
 const ICT_PRIZES = [
   { icon: <Laptop size={28} />, title: 'HP ProBook Laptop', desc: 'Top overall winner receives a high-performance laptop for continued innovation.', color: '#d4af37' },
-  { icon: <Award size={28} />, title: 'Mk 500,000 Grant', desc: 'Cash grant to help scale the winning project or fund postgraduate studies.', color: '#cc0000' },
+  { icon: <Award size={28} />, title: 'Mk 500,000 Grant', desc: 'Cash grant to help scale the winning project or fund postgraduate studies.', color: 'var(--color-primary)' },
   { icon: <Star size={28} />, title: '1-Year Mentorship', desc: 'Paired with a senior executive from a top Malawian or regional company.', color: '#d4af37' },
-  { icon: <Heart size={28} />, title: 'National Feature', desc: 'Story published on national media, TV, and our platform for maximum exposure.', color: '#cc0000' },
+  { icon: <Heart size={28} />, title: 'National Feature', desc: 'Story published on national media, TV, and our platform for maximum exposure.', color: 'var(--color-primary)' },
 ];
 
 export const Awards: React.FC = () => {
@@ -35,7 +35,8 @@ export const Awards: React.FC = () => {
     <AnimatedLayout>
       {/* ── SPOTLIGHT HERO ─────────────────────────────── */}
       <section style={{ position: 'relative', minHeight: '100vh', background: '#020202', display: 'flex', alignItems: 'center', overflow: 'hidden' }}>
-        <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 30% 50%, rgba(212,175,55,0.12) 0%, transparent 60%), radial-gradient(ellipse at 70% 50%, rgba(204,0,0,0.08) 0%, transparent 60%)' }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 30% 50%, rgba(212,175,55,0.12) 0%, transparent 60%), radial-gradient(ellipse at 70% 50%, rgba(26,86,219,0.08) 0%, transparent 60%)' }} />
+        <div className="mw-stripe" style={{ position: 'absolute', bottom: 0, left: 0, right: 0 }} />
 
         {/* Animated gold rings */}
         {[200, 350, 500].map((size, i) => (

@@ -27,7 +27,7 @@ export const Login: React.FC = () => {
       <div style={{ minHeight: '100vh', display: 'grid', gridTemplateColumns: '1fr', position: 'relative', background: '#000' }}>
         {/* Background image */}
         <div style={{ position: 'absolute', inset: 0, backgroundImage: 'url("/hero.png")', backgroundSize: 'cover', backgroundPosition: 'center top', opacity: 0.25 }} />
-        <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at center, rgba(204,0,0,0.1) 0%, rgba(0,0,0,0.9) 70%)' }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at center, rgba(26,86,219,0.1) 0%, rgba(0,0,0,0.9) 70%)' }} />
 
         {/* Centered card */}
         <div style={{ position: 'relative', zIndex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem 1.25rem', minHeight: '100vh' }}>
@@ -36,7 +36,7 @@ export const Login: React.FC = () => {
 
             {/* Logo */}
             <Link to="/" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.6rem', marginBottom: '2rem' }}>
-              <div style={{ background: 'var(--gradient-red)', padding: '0.5rem', borderRadius: '10px', display: 'flex', boxShadow: 'var(--shadow-red)' }}>
+              <div style={{ background: 'var(--gradient-blue)', padding: '0.5rem', borderRadius: '10px', display: 'flex', boxShadow: 'var(--shadow-blue)' }}>
                 <Heart size={20} color="white" fill="white" />
               </div>
               <span style={{ fontSize: '1.5rem', fontWeight: 900, fontFamily: 'Outfit' }}>

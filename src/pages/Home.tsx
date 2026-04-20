@@ -36,9 +36,9 @@ const STORIES = [
 ];
 
 const PROBLEMS = [
-  { icon: <BookOpen size={28} />, title: '1 in 3 students drop out', desc: 'Due to unpaid tuition — not lack of ability. A Mk50,000 gap can end a promising career before it begins.', color: '#cc0000' },
+  { icon: <BookOpen size={28} />, title: '1 in 3 students drop out', desc: 'Due to unpaid tuition — not lack of ability. A Mk50,000 gap can end a promising career before it begins.', color: 'var(--color-primary)' },
   { icon: <Laptop size={28} />, title: '78% lack basic ICT tools', desc: 'Most rural students have never owned a laptop. Without one, a Computer Science degree is nearly impossible.', color: '#d4af37' },
-  { icon: <Briefcase size={28} />, title: 'Only 8% find internships', desc: 'Malawi\'s internship market is invisible to most students. Connections and transport costs shut them out.', color: '#cc0000' },
+  { icon: <Briefcase size={28} />, title: 'Only 8% find internships', desc: 'Malawi\'s internship market is invisible to most students. Connections and transport costs shut them out.', color: 'var(--color-primary)' },
   { icon: <Trophy size={28} />, title: 'Excellence goes unnoticed', desc: 'Brilliant innovators in remote areas have no platform. Our awards change that — creating national role models.', color: '#d4af37' },
 ];
 
@@ -76,6 +76,7 @@ export const Home: React.FC = () => {
         {/* layered overlays for drama */}
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.0) 30%, rgba(0,0,0,0.85) 100%)' }} />
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(90deg, rgba(26,86,219,0.15) 0%, transparent 60%)' }} />
+        <div className="mw-stripe" style={{ position: 'absolute', bottom: 0, left: 0, right: 0 }} />
 
         {/* particles */}
         {[...Array(8)].map((_, i) => (
