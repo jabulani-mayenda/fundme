@@ -88,7 +88,7 @@ export const Awards: React.FC = () => {
       </section>
 
       {/* ── ICT PRIZES ──────────────────────────────────── */}
-      <section style={{ padding: '5rem 1.25rem', background: '#080808' }}>
+      <section style={{ padding: '5rem 1.25rem', background: '#f8faff' }}>
         <div className="container">
           <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
             <div className="section-label" style={{ margin: '0 auto 1rem' }}>What Winners Receive</div>
@@ -100,11 +100,11 @@ export const Awards: React.FC = () => {
           <div className="grid-4">
             {ICT_PRIZES.map((p, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
-                className="glass-panel" style={{ padding: '2rem', textAlign: 'center', borderTop: `3px solid ${p.color}` }}>
-                <div style={{ width: '60px', height: '60px', borderRadius: '16px', background: `${p.color}22`, border: `1px solid ${p.color}44`, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1.25rem', color: p.color }}>
+                style={{ padding: '2rem', textAlign: 'center', borderTop: `4px solid ${p.color}`, background: `${p.color}08`, borderRadius: '20px', border: `1px solid ${p.color}20`, borderTopWidth: '4px', borderTopColor: p.color, borderTopStyle: 'solid', boxShadow: `0 4px 20px ${p.color}10` }}>
+                <div style={{ width: '60px', height: '60px', borderRadius: '16px', background: `${p.color}15`, border: `1px solid ${p.color}30`, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1.25rem', color: p.color }}>
                   {p.icon}
                 </div>
-                <h3 style={{ fontSize: '1.1rem', marginBottom: '0.5rem' }}>{p.title}</h3>
+                <h3 style={{ fontSize: '1.1rem', marginBottom: '0.5rem', color: 'var(--text-primary)' }}>{p.title}</h3>
                 <p style={{ color: 'var(--text-secondary)', fontSize: '0.88rem', margin: 0, lineHeight: 1.6 }}>{p.desc}</p>
               </motion.div>
             ))}
@@ -112,13 +112,13 @@ export const Awards: React.FC = () => {
         </div>
       </section>
 
-      {/* ── HALL OF FAME ─────────────────────────────────── */}
-      <section style={{ padding: '5rem 1.25rem 7rem', background: '#000' }}>
+      {/* ── HALL OF FAME ───────────────────────────────── */}
+      <section style={{ padding: '5rem 1.25rem 7rem', background: '#fff' }}>
         <div className="container">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '3rem', flexWrap: 'wrap', gap: '1rem' }}>
             <div>
               <div className="section-label">🏆 Hall of Fame</div>
-              <h2 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.6rem)' }}>Past <span style={{ color: 'var(--color-gold)' }}>Champions</span></h2>
+              <h2 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.6rem)', color: 'var(--text-primary)' }}>Past <span style={{ color: 'var(--color-gold)' }}>Champions</span></h2>
             </div>
             <button className="pill-btn" style={{ maxWidth: '200px', background: 'var(--gradient-gold)', color: '#000' }}>
               <Star size={15} /> Nominate <ChevronRight size={15} />
@@ -129,19 +129,20 @@ export const Awards: React.FC = () => {
             {HALL.map((award, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 40, rotateX: 10 }} whileInView={{ opacity: 1, y: 0, rotateX: 0 }} viewport={{ once: true, margin: '-50px' }} transition={{ duration: 0.6, delay: i * 0.1, type: 'spring' }}
                 onClick={() => setSelected(award)}
-                style={{ cursor: 'pointer', borderRadius: '20px', overflow: 'hidden', border: '1px solid #1a1a1a', position: 'relative', transformPerspective: 1000, transition: 'transform 0.3s, box-shadow 0.3s' }}
-                whileHover={{ y: -8, boxShadow: `0 20px 40px rgba(0,0,0,0.7)` }}
+                style={{ cursor: 'pointer', borderRadius: '20px', overflow: 'hidden', border: `1px solid ${award.color}20`, position: 'relative', transformPerspective: 1000, transition: 'transform 0.3s, box-shadow 0.3s', boxShadow: '0 4px 20px rgba(0,0,0,0.06)' }}
+                whileHover={{ y: -8, boxShadow: `0 20px 40px ${award.color}25` }}
               >
                 <div style={{ position: 'relative', height: '180px' }}>
                   <img src={award.img} alt={award.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(0deg,rgba(0,0,0,0.8) 0%,transparent 60%)' }} />
-                  <div style={{ position: 'absolute', top: '0.75rem', left: '0.75rem', background: `${award.color}dd`, color: 'white', padding: '0.25rem 0.7rem', borderRadius: '50px', fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase' }}>{award.year}</div>
+                  <div style={{ position: 'absolute', top: '0.75rem', left: '0.75rem', background: `${award.color}ee`, color: 'white', padding: '0.25rem 0.7rem', borderRadius: '50px', fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase' }}>{award.year}</div>
                 </div>
-                <div style={{ background: '#111', padding: '1.5rem', borderTop: `3px solid ${award.color}` }}>
+                {/* Colorful card body */}
+                <div style={{ background: `${award.color}08`, padding: '1.5rem', borderTop: `3px solid ${award.color}` }}>
                   <div style={{ color: award.color, fontWeight: 700, fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '0.4rem' }}>{award.category}</div>
-                  <h3 style={{ fontSize: '1.25rem', marginBottom: '0.3rem' }}>{award.name}</h3>
+                  <h3 style={{ fontSize: '1.25rem', marginBottom: '0.3rem', color: 'var(--text-primary)' }}>{award.name}</h3>
                   <p style={{ color: 'var(--text-secondary)', fontSize: '0.82rem', marginBottom: '1rem', lineHeight: 1.5 }}>{award.uni}</p>
-                  <button className="pill-btn pill-btn-ghost" style={{ width: '100%', fontSize: '0.85rem', padding: '0.6rem', borderColor: `${award.color}66`, color: award.color }}>
+                  <button className="pill-btn" style={{ width: '100%', fontSize: '0.85rem', padding: '0.6rem', background: `linear-gradient(135deg, ${award.color}, ${award.color}99)` }}>
                     Read Story <ChevronRight size={14} />
                   </button>
                 </div>
@@ -158,16 +159,16 @@ export const Awards: React.FC = () => {
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setSelected(null)}
               style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.85)', zIndex: 200, backdropFilter: 'blur(8px)' }} />
             <motion.div initial={{ opacity: 0, scale: 0.9, y: 30 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.9, y: 30 }}
-              style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', zIndex: 201, width: '90%', maxWidth: '500px', borderRadius: '24px', overflow: 'hidden', background: '#111', border: '1px solid #222' }}>
+              style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', zIndex: 201, width: '90%', maxWidth: '500px', borderRadius: '24px', overflow: 'hidden', background: '#fff', border: `2px solid ${selected?.color}30`, boxShadow: '0 25px 60px rgba(0,0,0,0.2)' }}>
               <img src={selected.img} alt={selected.name} style={{ width: '100%', height: '220px', objectFit: 'cover' }} />
-              <button onClick={() => setSelected(null)} style={{ position: 'absolute', top: '1rem', right: '1rem', background: 'rgba(0,0,0,0.6)', border: 'none', color: 'white', borderRadius: '50%', width: '36px', height: '36px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+              <button onClick={() => setSelected(null)} style={{ position: 'absolute', top: '1rem', right: '1rem', background: 'rgba(0,0,0,0.5)', border: 'none', color: 'white', borderRadius: '50%', width: '36px', height: '36px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
                 <X size={18} />
               </button>
-              <div style={{ padding: '2rem' }}>
+              <div style={{ padding: '2rem', background: selected ? `${selected.color}05` : '#fff' }}>
                 <div style={{ color: selected.color, fontWeight: 700, fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '0.5rem' }}>{selected.category} · {selected.year}</div>
-                <h3 style={{ fontSize: '1.8rem', marginBottom: '0.25rem' }}>{selected.name}</h3>
+                <h3 style={{ fontSize: '1.8rem', marginBottom: '0.25rem', color: 'var(--text-primary)' }}>{selected.name}</h3>
                 <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '1.25rem' }}>{selected.uni}</p>
-                <p style={{ color: 'rgba(255,255,255,0.85)', lineHeight: 1.7, fontSize: '1rem' }}>{selected.story}</p>
+                <p style={{ color: 'var(--text-primary)', lineHeight: 1.7, fontSize: '1rem' }}>{selected.story}</p>
                 <button className="pill-btn" style={{ marginTop: '1.5rem', background: `linear-gradient(135deg,${selected.color},${selected.color}99)` }}>
                   <Heart size={16} fill="white" /> Donate in Their Honour
                 </button>

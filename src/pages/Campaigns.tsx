@@ -47,7 +47,7 @@ export const Campaigns: React.FC = () => {
       </section>
 
       {/* ── SEARCH + FILTER BAR ───────────────────────── */}
-      <section style={{ position: 'sticky', top: '70px', zIndex: 40, background: 'rgba(0,0,0,0.95)', backdropFilter: 'blur(16px)', borderBottom: '1px solid #1a1a1a', padding: '1rem 1.25rem' }}>
+      <section style={{ position: 'sticky', top: '70px', zIndex: 40, background: 'rgba(255,255,255,0.98)', backdropFilter: 'blur(16px)', borderBottom: '1px solid #eee', padding: '1rem 1.25rem' }}>
         <div className="container">
           <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', alignItems: 'center' }}>
             <div style={{ position: 'relative', flex: 1, minWidth: '200px' }}>
@@ -59,8 +59,8 @@ export const Campaigns: React.FC = () => {
               {FILTERS.map(f => (
                 <button key={f} onClick={() => setActiveFilter(f)} style={{
                   padding: '0.5rem 1rem', borderRadius: '50px', border: 'none', cursor: 'pointer', fontWeight: 600, fontSize: '0.85rem', transition: 'all 0.2s',
-                  background: activeFilter === f ? 'var(--color-primary)' : 'rgba(255,255,255,0.07)',
-                  color: activeFilter === f ? 'white' : 'var(--text-secondary)',
+                  background: activeFilter === f ? 'var(--color-primary)' : '#f1f5f9',
+                  color: activeFilter === f ? 'white' : '#555',
                   boxShadow: activeFilter === f ? 'var(--shadow-blue)' : 'none',
                 }}>{f}</button>
               ))}
@@ -70,15 +70,15 @@ export const Campaigns: React.FC = () => {
       </section>
 
       {/* ── CAMPAIGN GRID ─────────────────────────────── */}
-      <section style={{ padding: '2.5rem 1.25rem 7rem', background: '#000', minHeight: '60vh' }}>
+      <section style={{ padding: '2.5rem 1.25rem 7rem', background: '#f8faff', minHeight: '60vh' }}>
         <div className="container">
           <div style={{ marginBottom: '1.5rem', color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
-            Showing <strong style={{ color: 'white' }}>{filtered.length}</strong> campaigns
+            Showing <strong style={{ color: 'var(--text-primary)' }}>{filtered.length}</strong> campaigns
           </div>
           <motion.div layout className="grid-3">
             <AnimatePresence>
               {filtered.map(item => (
-                <motion.div layout key={item.id} initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }} transition={{ duration: 0.3 }} className="campaign-card">
+                <motion.div layout key={item.id} initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }} transition={{ duration: 0.3 }} className="campaign-card" style={{ background: '#fff', border: '1px solid #eee' }}>
                   <div style={{ position: 'relative' }}>
                     <img src={item.img} alt={item.title} />
                     <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(0deg,rgba(0,0,0,0.5) 0%,transparent 50%)' }} />
@@ -91,15 +91,17 @@ export const Campaigns: React.FC = () => {
                       <span className="chip" style={{ background: `${item.color}dd`, color: 'white' }}>{item.tag} {item.cat}</span>
                     </div>
                   </div>
-                  <div className="card-body">
-                    <h3 style={{ fontSize: '1.1rem', marginBottom: '0.4rem', lineHeight: 1.3 }}>{item.title}</h3>
+                  {/* Colourful category accent bar */}
+                  <div style={{ height: '4px', background: `linear-gradient(90deg, ${item.color}, ${item.color}55)` }} />
+                  <div className="card-body" style={{ background: `${item.color}06` }}>
+                    <h3 style={{ fontSize: '1.1rem', marginBottom: '0.4rem', lineHeight: 1.3, color: 'var(--text-primary)' }}>{item.title}</h3>
                     <div style={{ display: 'flex', gap: '1rem', color: 'var(--text-secondary)', fontSize: '0.85rem', marginBottom: '0.25rem' }}>
                       <span>{item.student}</span>
                       <span style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
                         <MapPin size={12} />{item.location}
                       </span>
                     </div>
-                    <div className="progress-bar">
+                    <div className="progress-bar" style={{ background: '#eee' }}>
                       <motion.div className="progress-fill" initial={{ width: 0 }} whileInView={{ width: `${item.progress}%` }} viewport={{ once: true }} transition={{ duration: 1.2, ease: 'easeOut' }}
                         style={{ background: `linear-gradient(90deg, ${item.color}, ${item.color}88)` }} />
                     </div>

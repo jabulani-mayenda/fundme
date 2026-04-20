@@ -36,10 +36,10 @@ const STORIES = [
 ];
 
 const PROBLEMS = [
-  { icon: <BookOpen size={28} />, title: '1 in 3 students drop out', desc: 'Due to unpaid tuition — not lack of ability. A Mk50,000 gap can end a promising career before it begins.', color: 'var(--color-primary)' },
-  { icon: <Laptop size={28} />, title: '78% lack basic ICT tools', desc: 'Most rural students have never owned a laptop. Without one, a Computer Science degree is nearly impossible.', color: '#d4af37' },
-  { icon: <Briefcase size={28} />, title: 'Only 8% find internships', desc: 'Malawi\'s internship market is invisible to most students. Connections and transport costs shut them out.', color: 'var(--color-primary)' },
-  { icon: <Trophy size={28} />, title: 'Excellence goes unnoticed', desc: 'Brilliant innovators in remote areas have no platform. Our awards change that — creating national role models.', color: '#d4af37' },
+  { icon: <BookOpen size={28} />, title: '1 in 3 students drop out', desc: 'Due to unpaid tuition — not lack of ability. A Mk50,000 gap can end a promising career before it begins.', color: '#000000', bg: 'rgba(0,0,0,0.04)', border: 'rgba(0,0,0,0.12)' },
+  { icon: <Laptop size={28} />, title: '78% lack basic ICT tools', desc: 'Most rural students have never owned a laptop. Without one, a Computer Science degree is nearly impossible.', color: '#ce1126', bg: 'rgba(206,17,38,0.05)', border: 'rgba(206,17,38,0.15)' },
+  { icon: <Briefcase size={28} />, title: 'Only 8% find internships', desc: "Malawi's internship market is invisible to most students. Connections and transport costs shut them out.", color: '#009a44', bg: 'rgba(0,154,68,0.05)', border: 'rgba(0,154,68,0.15)' },
+  { icon: <Trophy size={28} />, title: 'Excellence goes unnoticed', desc: 'Brilliant innovators in remote areas have no platform. Our awards change that — creating national role models.', color: '#ce1126', bg: 'rgba(206,17,38,0.05)', border: 'rgba(206,17,38,0.15)' },
 ];
 
 const MARQUEE_ITEMS = [
@@ -119,12 +119,18 @@ export const Home: React.FC = () => {
       </section>
 
       {/* ── PROBLEM STATEMENT ─────────────────────────── */}
-      <section style={{ padding: '5rem 1.25rem', background: '#060606' }}>
+      <section style={{ padding: '5rem 1.25rem', background: '#fff' }} className="no-overflow">
         <div className="container">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
             <div className="section-label" style={{ margin: '0 auto 1rem' }}>The Reality</div>
-            <h2 style={{ fontSize: 'clamp(2rem, 5vw, 3rem)' }}>The Struggle Is <span style={{ color: 'var(--color-primary)' }}>Real</span></h2>
-            <div className="gold-divider" style={{ margin: '1rem auto' }} />
+            <h2 style={{ fontSize: 'clamp(2rem, 5vw, 3rem)' }}>The Struggle Is{' '}
+              <span style={{
+                background: 'linear-gradient(135deg, #000 0%, #ce1126 40%, #009a44 100%)',
+                WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
+              }}>Real</span>
+            </h2>
+            {/* Malawi flag stripe divider */}
+            <div style={{ width: '80px', height: '4px', background: 'linear-gradient(90deg, #000 0%, #ce1126 40%, #009a44 100%)', borderRadius: '2px', margin: '1rem auto 1.5rem' }} />
             <p style={{ color: 'var(--text-secondary)', maxWidth: '600px', margin: '0 auto', fontSize: '1.1rem' }}>
               Malawi has a 61% literacy rate but one of the world's lowest graduation rates. Here's why — and how we fix it.
             </p>
@@ -133,12 +139,14 @@ export const Home: React.FC = () => {
           <div className="grid-2" style={{ gap: '1.5rem' }}>
             {PROBLEMS.map((p, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
-                className="glass-panel" style={{ padding: '2rem', display: 'flex', gap: '1.25rem', alignItems: 'flex-start', borderLeft: `3px solid ${p.color}` }}>
-                <div style={{ width: '52px', height: '52px', borderRadius: '14px', background: `${p.color}22`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, color: p.color }}>
+                style={{ padding: '2rem', display: 'flex', gap: '1.25rem', alignItems: 'flex-start', borderLeft: `4px solid ${p.color}`, background: p.bg, border: `1px solid ${p.border}`, borderLeftWidth: '4px', borderLeftColor: p.color, borderLeftStyle: 'solid', borderRadius: '16px', boxShadow: `0 4px 20px ${p.color}10`, transition: 'transform 0.3s, box-shadow 0.3s' }}
+                whileHover={{ x: 4, boxShadow: `0 8px 30px ${p.color}20` }}
+              >
+                <div style={{ width: '52px', height: '52px', borderRadius: '14px', background: `${p.color}15`, border: `1px solid ${p.color}30`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, color: p.color }}>
                   {p.icon}
                 </div>
                 <div>
-                  <h3 style={{ fontSize: '1.15rem', marginBottom: '0.5rem', color: p.color }}>{p.title}</h3>
+                  <h3 style={{ fontSize: '1.15rem', marginBottom: '0.5rem', color: p.color === '#000000' ? '#111' : p.color }}>{p.title}</h3>
                   <p style={{ color: 'var(--text-secondary)', lineHeight: 1.6, margin: 0 }}>{p.desc}</p>
                 </div>
               </motion.div>
@@ -150,6 +158,37 @@ export const Home: React.FC = () => {
       {/* ── STATS ─────────────────────────────────────── */}
       <section ref={statsRef} style={{ padding: '5rem 1.25rem', background: 'var(--color-primary)', position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', inset: 0, background: 'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'0.03\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")' }} />
+
+        {/* ✨ SPINNING ORBIT RINGS (right side decoration) ✨ */}
+        <div style={{ position: 'absolute', top: '50%', right: '-100px', transform: 'translateY(-50%)', width: '420px', height: '420px', pointerEvents: 'none', zIndex: 0 }}>
+          {[420, 300, 180].map((size, i) => (
+            <div key={i} style={{
+              position: 'absolute', top: '50%', left: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: `${size}px`, height: `${size}px`, borderRadius: '50%',
+              border: `${i === 0 ? 2 : 1}px solid rgba(255,255,255,${0.07 + i * 0.05})`,
+              animation: i % 2 === 0 ? `spin-slow ${35 + i * 12}s linear infinite` : `spin-slow-reverse ${28 + i * 8}s linear infinite`,
+            }}>
+              <div style={{ position: 'absolute', top: '-5px', left: '50%', transform: 'translateX(-50%)', width: '10px', height: '10px', borderRadius: '50%', background: i === 0 ? 'rgba(255,255,255,0.9)' : i === 1 ? '#d4af37' : 'rgba(255,255,255,0.5)', boxShadow: '0 0 12px rgba(255,255,255,0.6)' }} />
+            </div>
+          ))}
+        </div>
+
+        {/* Floating emoji badges (left side) */}
+        {[
+          { emoji: '🎓', top: '18%', left: '4%' },
+          { emoji: '💻', top: '65%', left: '7%' },
+          { emoji: '🇲🇼', top: '22%', right: '14%' },
+        ].map((badge, i) => (
+          <motion.div key={i}
+            style={{ position: 'absolute', top: badge.top, left: (badge as any).left, right: (badge as any).right, fontSize: '2rem', zIndex: 1, filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.3))' }}
+            animate={{ y: [0, -14, 0] }}
+            transition={{ duration: 3 + i * 0.6, repeat: Infinity, ease: 'easeInOut', delay: i * 0.9 }}
+          >
+            {badge.emoji}
+          </motion.div>
+        ))}
+
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>
           <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
             <h2 style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', color: 'white' }}>Our Collective Impact</h2>
@@ -175,7 +214,7 @@ export const Home: React.FC = () => {
       </section>
 
       {/* ── HOW IT WORKS ──────────────────────────────── */}
-      <section style={{ padding: '5rem 1.25rem', background: '#080808' }}>
+      <section style={{ padding: '5rem 1.25rem', background: '#f8faff' }} className="no-overflow">
         <div className="container">
           <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
             <div className="section-label" style={{ margin: '0 auto 1rem' }}>The Process</div>
@@ -188,12 +227,12 @@ export const Home: React.FC = () => {
               { step: '03', icon: <TrendingUp size={32} />, title: 'Lives Change', desc: 'Funds go directly to the institution or student. Donors track progress. Top performers get awarded and ICT support from our corporate partners.', color: '#cc0000' },
             ].map((s, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.15 }}
-                className="glass-panel" style={{ padding: '2.5rem 2rem', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
-                <div style={{ position: 'absolute', top: '1rem', right: '1.5rem', fontSize: '4rem', fontWeight: 900, color: 'rgba(255,255,255,0.04)', fontFamily: 'Outfit' }}>{s.step}</div>
-                <div style={{ width: '64px', height: '64px', borderRadius: '18px', background: `${s.color}20`, border: `1px solid ${s.color}40`, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1.5rem', color: s.color }}>
+                className="glass-panel" style={{ padding: '2.5rem 2rem', textAlign: 'center', position: 'relative', overflow: 'hidden', background: '#fff' }}>
+                <div style={{ position: 'absolute', top: '1rem', right: '1.5rem', fontSize: '4rem', fontWeight: 900, color: 'rgba(0,0,0,0.03)', fontFamily: 'Outfit' }}>{s.step}</div>
+                <div style={{ width: '64px', height: '64px', borderRadius: '18px', background: `${s.color}08`, border: `1px solid ${s.color}15`, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1.5rem', color: s.color }}>
                   {s.icon}
                 </div>
-                <h3 style={{ fontSize: '1.3rem', marginBottom: '0.75rem' }}>{s.title}</h3>
+                <h3 style={{ fontSize: '1.3rem', marginBottom: '0.75rem', color: 'var(--text-primary)' }}>{s.title}</h3>
                 <p style={{ color: 'var(--text-secondary)', lineHeight: 1.7, margin: 0 }}>{s.desc}</p>
               </motion.div>
             ))}
@@ -202,7 +241,7 @@ export const Home: React.FC = () => {
       </section>
 
       {/* ── URGENT CAMPAIGNS ──────────────────────────── */}
-      <section style={{ padding: '5rem 1.25rem 6rem', background: '#000' }}>
+      <section style={{ padding: '5rem 1.25rem 6rem', background: '#fff' }} className="no-overflow">
         <div className="container">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '2.5rem', flexWrap: 'wrap', gap: '1rem' }}>
             <div>
@@ -215,7 +254,7 @@ export const Home: React.FC = () => {
           </div>
           <div className="grid-3">
             {URGENT.map((item, idx) => (
-              <motion.div key={idx} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: idx * 0.1 }} className="campaign-card">
+              <motion.div key={idx} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: idx * 0.1 }} className="campaign-card" style={{ background: '#fff' }}>
                 <div style={{ position: 'relative' }}>
                   <img src={item.img} alt={item.title} />
                   <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(0deg, rgba(0,0,0,0.6) 0%, transparent 60%)' }} />
@@ -226,9 +265,9 @@ export const Home: React.FC = () => {
                   </div>
                 </div>
                 <div className="card-body">
-                  <h3 style={{ fontSize: '1.15rem', marginBottom: '0.4rem' }}>{item.title}</h3>
+                  <h3 style={{ fontSize: '1.15rem', marginBottom: '0.4rem', color: 'var(--text-primary)' }}>{item.title}</h3>
                   <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', margin: 0 }}>{item.student}</p>
-                  <div className="progress-bar">
+                  <div className="progress-bar" style={{ background: '#eee' }}>
                     <motion.div className="progress-fill" initial={{ width: 0 }} whileInView={{ width: `${item.progress}%` }} viewport={{ once: true }} transition={{ duration: 1.2, ease: 'easeOut' }}
                       style={{ background: `linear-gradient(90deg, ${item.color}, ${item.color}aa)` }} />
                   </div>
@@ -247,7 +286,7 @@ export const Home: React.FC = () => {
       </section>
 
       {/* ── TESTIMONIALS ──────────────────────────────── */}
-      <section style={{ padding: '5rem 1.25rem', background: '#050505' }}>
+      <section style={{ padding: '5rem 1.25rem', background: '#f8faff' }} className="no-overflow">
         <div className="container">
           <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
             <div className="section-label" style={{ margin: '0 auto 1rem' }}>Success Stories</div>
@@ -256,11 +295,11 @@ export const Home: React.FC = () => {
           </div>
           <div className="grid-3">
             {STORIES.map((s, i) => (
-              <motion.div key={i} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.15 }} className="testimonial-card">
+              <motion.div key={i} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.15 }} className="testimonial-card" style={{ background: '#fff', border: '1px solid #eee' }}>
                 <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', marginBottom: '1.25rem' }}>
                   <img src={s.img} alt={s.name} style={{ width: '56px', height: '56px', borderRadius: '50%', objectFit: 'cover', border: '2px solid var(--color-gold)' }} />
                   <div>
-                    <div style={{ fontWeight: 700, fontSize: '1rem' }}>{s.name}</div>
+                    <div style={{ fontWeight: 700, fontSize: '1rem', color: 'var(--text-primary)' }}>{s.name}</div>
                     <div style={{ color: 'var(--text-secondary)', fontSize: '0.8rem' }}>{s.uni}</div>
                     <div style={{ display: 'flex', gap: '2px', marginTop: '4px' }}>
                       {[...Array(s.stars)].map((_, j) => <Star key={j} size={12} color="#d4af37" fill="#d4af37" />)}

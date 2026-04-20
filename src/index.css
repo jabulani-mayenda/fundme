@@ -1,10 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@500;700;800;900&display=swap');
 
 :root {
-  /* Brand Colors: Blue / Black / Gold */
+  /* Brand Colors: Blue / White / Gold / Black */
+  --color-bg-white:    #ffffff;
+  --color-bg-light:    #f8faff;
+  --color-bg-panel:    #ffffff;
+  --color-bg-elevated: #ffffff;
   --color-bg-dark:     #000000;
-  --color-bg-panel:    #111111;
-  --color-bg-elevated: #1a1a1a;
+  --color-bg-dark-soft:#0a0a0a;
 
   --color-primary:      #1a56db;       /* Malawi blue */
   --color-primary-light:#3b82f6;
@@ -27,26 +30,27 @@
   --cat-tech:        #00689d;
   --cat-awards:      #dd1367;
 
-  /* Text */
-  --text-primary:   #ffffff;
-  --text-secondary: #aaaaaa;
-  --text-tertiary:  #555555;
+  /* Text - Light Theme Default */
+  --text-primary:   #111111;
+  --text-secondary: #555555;
+  --text-tertiary:  #888888;
+  --text-on-dark:   #ffffff;
 
   /* Gradients */
   --gradient-hero:    linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.95) 100%);
   --gradient-blue:    linear-gradient(135deg, #1a56db 0%, #0d3a9e 100%);
   --gradient-gold:    linear-gradient(135deg, #d4af37 0%, #a88a20 100%);
   --gradient-primary: linear-gradient(135deg, #1a56db 0%, #0d3a9e 100%);
-  --gradient-mw:      linear-gradient(135deg, #ce1126 0%, #1a56db 50%, #009a44 100%);
+  --gradient-mw:      linear-gradient(90deg, #000 0%, #ce1126 33%, #009a44 66%, #000 100%);
 
   /* Borders & Shadows */
-  --border-light:    rgba(255,255,255,0.08);
+  --border-light:    rgba(0,0,0,0.06);
   --border-gold:     rgba(212,175,55,0.3);
-  --border-blue:     rgba(26,86,219,0.4);
-  --shadow-sm:       0 2px 8px rgba(0,0,0,0.5);
-  --shadow-md:       0 8px 32px rgba(0,0,0,0.7);
-  --shadow-blue:     0 0 30px rgba(26,86,219,0.5);
-  --shadow-gold:     0 0 30px rgba(212,175,55,0.4);
+  --border-blue:     rgba(26,86,219,0.2);
+  --shadow-sm:       0 2px 8px rgba(0,0,0,0.05);
+  --shadow-md:       0 8px 32px rgba(0,0,0,0.08);
+  --shadow-blue:     0 12px 30px rgba(26,86,219,0.25);
+  --shadow-gold:     0 12px 30px rgba(212,175,55,0.2);
 }
 
 /* ─── Reset ─────────────────────────────────────────────────────── */
@@ -56,7 +60,7 @@ html { scroll-behavior: smooth; }
 
 body {
   font-family: 'Inter', sans-serif;
-  background-color: var(--color-bg-dark);
+  background-color: var(--color-bg-white);
   color: var(--text-primary);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
@@ -87,10 +91,11 @@ img { max-width: 100%; display: block; }
 
 /* ─── Glass / Panels ─────────────────────────────────────────────── */
 .glass-panel {
-  background: rgba(255,255,255,0.04);
+  background: rgba(255,255,255,0.7);
   border: 1px solid var(--border-light);
   border-radius: 20px;
   backdrop-filter: blur(12px);
+  box-shadow: var(--shadow-sm);
 }
 .gold-border { border: 1px solid var(--border-gold) !important; }
 .blue-border { border: 1px solid var(--border-blue) !important; }
@@ -377,14 +382,14 @@ img { max-width: 100%; display: block; }
 }
 
 /* ─── Responsive Grid Helpers ────────────────────────────────────── */
-.grid-2 { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+.grid-2 { display: grid; grid-template-columns: 1fr; gap: 2rem; width: 100%; }
 @media (min-width: 768px) { .grid-2 { grid-template-columns: 1fr 1fr; } }
 
-.grid-3 { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+.grid-3 { display: grid; grid-template-columns: 1fr; gap: 1.5rem; width: 100%; }
 @media (min-width: 640px)  { .grid-3 { grid-template-columns: repeat(2,1fr); } }
 @media (min-width: 1024px) { .grid-3 { grid-template-columns: repeat(3,1fr); } }
 
-.grid-4 { display: grid; grid-template-columns: repeat(2,1fr); gap: 1rem; }
+.grid-4 { display: grid; grid-template-columns: repeat(2,1fr); gap: 1rem; width: 100%; }
 @media (min-width: 768px)  { .grid-4 { grid-template-columns: repeat(4,1fr); } }
 
 /* ─── Desktop nav hide/show ──────────────────────────────────────── */
@@ -407,17 +412,17 @@ img { max-width: 100%; display: block; }
   width: 100%;
   padding: 1rem 1.25rem;
   border-radius: 12px;
-  border: 1px solid #333;
-  background: rgba(255,255,255,0.05);
-  color: white;
+  border: 1px solid #ddd;
+  background: #fff;
+  color: #111;
   font-size: 1rem;
   font-family: 'Inter', sans-serif;
   outline: none;
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 .form-input:focus { border-color: var(--color-primary); box-shadow: 0 0 0 3px rgba(26,86,219,0.2); }
-.form-input::placeholder { color: #555; }
-.form-input option { background: #1a1a1a; }
+.form-input::placeholder { color: #999; }
+.form-input option { background: #fff; }
 
 /* ─── News Card ─────────────────────────────────────────────────── */
 .news-card {
@@ -453,7 +458,19 @@ img { max-width: 100%; display: block; }
 }
 .leaderboard-row:hover { background: rgba(26,86,219,0.08); border-color: rgba(26,86,219,0.25); }
 
-/* ─── Malawi Flag stripe ─────────────────────────────────────────── */
+/* ─── Dark Section Override ─────────────────────────────────────── */
+.dark-section {
+  background-color: var(--color-bg-dark) !important;
+  color: white !important;
+}
+.dark-section h1, .dark-section h2, .dark-section h3, .dark-section p {
+  color: white !important;
+}
+.dark-section .text-secondary {
+  color: rgba(255,255,255,0.7) !important;
+}
+
+/* ─── Malawi Flag Stripe ────────────────────────────────────── */
 .mw-stripe {
   height: 4px;
   background: linear-gradient(90deg, #000 0%, #ce1126 33%, #009a44 66%, #000 100%);

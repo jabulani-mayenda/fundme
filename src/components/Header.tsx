@@ -25,9 +25,9 @@ export const Header: React.FC = () => {
         className="desktop-only"
         style={{
           position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
-          background: 'rgba(0,0,0,0.85)',
+          background: 'rgba(255,255,255,0.95)',
           backdropFilter: 'blur(20px)',
-          borderBottom: '1px solid rgba(255,255,255,0.06)',
+          borderBottom: '1px solid rgba(0,0,0,0.06)',
           alignItems: 'center', justifyContent: 'space-between',
           height: '70px', padding: '0 1.5rem',
         }}
@@ -53,9 +53,9 @@ export const Header: React.FC = () => {
             <Link
               key={n.to} to={n.to}
               style={{
-                fontWeight: 600, fontSize: '0.95rem',
-                color: pathname === n.to ? 'var(--color-gold)' : 'var(--text-secondary)',
-                borderBottom: pathname === n.to ? '2px solid var(--color-gold)' : '2px solid transparent',
+                fontWeight: 700, fontSize: '0.9rem',
+                color: pathname === n.to ? 'var(--color-primary)' : '#444',
+                borderBottom: pathname === n.to ? '2px solid var(--color-primary)' : '2px solid transparent',
                 paddingBottom: '2px', transition: 'color 0.2s, border-color 0.2s',
               }}
             >
@@ -103,8 +103,8 @@ export const Header: React.FC = () => {
         className="mobile-only"
         style={{
           position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
-          background: 'rgba(0,0,0,0.9)', backdropFilter: 'blur(16px)',
-          borderBottom: '1px solid rgba(255,255,255,0.06)',
+          background: 'rgba(255,255,255,0.98)', backdropFilter: 'blur(16px)',
+          borderBottom: '1px solid rgba(0,0,0,0.06)',
           alignItems: 'center', justifyContent: 'space-between',
           height: '60px', padding: '0 1rem',
         }}
@@ -130,8 +130,9 @@ export const Header: React.FC = () => {
             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
             style={{
               position: 'fixed', top: 0, right: 0, bottom: 0, width: '80%', maxWidth: '320px',
-              background: '#0d0d0d', zIndex: 200, padding: '5rem 2rem 2rem',
-              borderLeft: '1px solid #222', display: 'flex', flexDirection: 'column', gap: '0.5rem',
+              background: '#ffffff', zIndex: 200, padding: '5rem 2rem 2rem',
+              borderLeft: '1px solid #eee', display: 'flex', flexDirection: 'column', gap: '0.5rem',
+              boxShadow: '-10px 0 30px rgba(0,0,0,0.05)',
             }}
           >
             <button
@@ -148,9 +149,9 @@ export const Header: React.FC = () => {
                 style={{
                   display: 'block', padding: '1rem 1.25rem', borderRadius: '12px',
                   fontWeight: 700, fontSize: '1.1rem',
-                  background: pathname === n.to ? 'rgba(26,86,219,0.15)' : 'transparent',
-                  color: pathname === n.to ? 'var(--color-gold)' : 'white',
-                  borderLeft: pathname === n.to ? '3px solid var(--color-primary)' : '3px solid transparent',
+                  background: pathname === n.to ? 'rgba(26,86,219,0.08)' : 'transparent',
+                  color: pathname === n.to ? 'var(--color-primary)' : '#111',
+                  borderLeft: pathname === n.to ? '4px solid var(--color-primary)' : '4px solid transparent',
                   transition: 'all 0.2s',
                 }}
               >

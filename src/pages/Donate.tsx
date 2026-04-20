@@ -10,12 +10,12 @@ import {
 const AMOUNTS = [5000, 15000, 25000, 50000, 100000, 250000];
 
 const CAUSES = [
-  { id: 'fees',       icon: <BookOpen size={20} />,  label: 'School Fees',     color: '#1a56db', desc: 'Covers tuition at UNIMA, MUBAS, MUST and others.' },
-  { id: 'laptop',     icon: <Laptop size={20} />,    label: 'ICT / Laptop',    color: '#d4af37', desc: 'Provides a refurbished laptop for a student in need.' },
+  { id: 'fees',       icon: <BookOpen size={20} />,  label: 'School Fees',     color: '#ce1126', desc: 'Covers tuition at UNIMA, MUBAS, MUST and others.' },
+  { id: 'laptop',     icon: <Laptop size={20} />,    label: 'ICT / Laptop',    color: '#009a44', desc: 'Provides a refurbished laptop for a student in need.' },
   { id: 'housing',    icon: <HomeIcon size={20} />,  label: 'Housing & Rent',  color: '#1a56db', desc: 'Covers hostel or private rent near campus.' },
   { id: 'internship', icon: <Briefcase size={20} />, label: 'Internship Fund', color: '#d4af37', desc: 'Pays transport & setup costs for a new intern.' },
-  { id: 'awards',     icon: <Trophy size={20} />,    label: 'Awards Prize',    color: '#1a56db', desc: 'Funds ICT prizes for top-performing students.' },
-  { id: 'general',    icon: <Heart size={20} />,     label: 'General Fund',    color: '#d4af37', desc: 'Split across highest-priority student needs.' },
+  { id: 'awards',     icon: <Trophy size={20} />,    label: 'Awards Prize',    color: '#dd1367', desc: 'Funds ICT prizes for top-performing students.' },
+  { id: 'general',    icon: <Heart size={20} />,     label: 'General Fund',    color: '#7c3aed', desc: 'Split across highest-priority student needs.' },
 ];
 
 const IMPACT = [
@@ -60,12 +60,28 @@ export const Donate: React.FC = () => {
   return (
     <AnimatedLayout>
       {/* ── HERO ─────────────────────────────────────────── */}
-      <section style={{ position: 'relative', minHeight: '50vh', display: 'flex', alignItems: 'flex-end', padding: '3rem 1.25rem', background: '#000', overflow: 'hidden' }}>
+      <section className="dark-section" style={{ position: 'relative', minHeight: '50vh', display: 'flex', alignItems: 'flex-end', padding: '3rem 1.25rem', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', inset: 0, backgroundImage: 'url("https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=1400&q=80")', backgroundSize: 'cover', backgroundPosition: 'center', opacity: 0.28 }} />
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.97) 100%)' }} />
         <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 20% 50%, rgba(26,86,219,0.18) 0%, transparent 60%)' }} />
         {/* Malawi stripe */}
         <div className="mw-stripe" style={{ position: 'absolute', bottom: 0, left: 0, right: 0 }} />
+
+        {/* ✨ SPINNING ORBIT RINGS (top-right corner) ✨ */}
+        <div style={{ position: 'absolute', top: '-80px', right: '-80px', width: '380px', height: '380px', pointerEvents: 'none', zIndex: 0 }}>
+          {[380, 260, 150].map((size, i) => (
+            <div key={i} style={{
+              position: 'absolute', top: '50%', left: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: `${size}px`, height: `${size}px`, borderRadius: '50%',
+              border: `1px solid rgba(255,255,255,${0.06 + i * 0.04})`,
+              animation: i % 2 === 0 ? `spin-slow ${40 + i * 15}s linear infinite` : `spin-slow-reverse ${30 + i * 10}s linear infinite`,
+            }}>
+              <div style={{ position: 'absolute', top: '-4px', left: '50%', transform: 'translateX(-50%)', width: '8px', height: '8px', borderRadius: '50%', background: i === 0 ? '#ce1126' : i === 1 ? '#009a44' : '#d4af37', boxShadow: '0 0 10px currentColor' }} />
+            </div>
+          ))}
+        </div>
+
         {/* Floating particles */}
         {[...Array(6)].map((_, i) => (
           <div key={i} className="particle" style={{
@@ -80,7 +96,7 @@ export const Donate: React.FC = () => {
             <div className="section-label" style={{ marginBottom: '1rem' }}>
               <Heart size={12} fill="currentColor" /> Make a Difference
             </div>
-            <h1 style={{ fontSize: 'clamp(2.4rem, 7vw, 4.5rem)', lineHeight: 1.05, marginBottom: '1rem' }}>
+            <h1 style={{ fontSize: 'clamp(2.4rem, 7vw, 4.5rem)', lineHeight: 1.05, marginBottom: '1rem', color: 'white' }}>
               Your Donation.<br />
               <span style={{ color: 'var(--color-primary)' }}>Their Future.</span>
             </h1>
@@ -92,24 +108,24 @@ export const Donate: React.FC = () => {
       </section>
 
       {/* ── STATS BAR ────────────────────────────────────── */}
-      <div style={{ background: '#0a0a0a', borderBottom: '1px solid #1a1a1a', padding: '1.1rem 1.25rem' }}>
-        <div className="container" style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '1rem', textAlign: 'center' }}>
+      <div style={{ background: '#fff', borderBottom: '1px solid #eee', padding: '1.5rem 1.25rem' }}>
+        <div className="container grid-4" style={{ gap: '1.5rem', textAlign: 'center' }}>
           {[
             { val: 'Mk 50M+', label: 'Total Raised',      color: 'var(--color-primary)' },
             { val: '3,500+',  label: 'Students Helped',   color: 'var(--color-gold)' },
             { val: '94%',     label: 'Campaign Success',  color: 'var(--color-primary)' },
             { val: '28',      label: 'Districts Covered', color: 'var(--color-gold)' },
           ].map((s, i) => (
-            <div key={i} style={{ borderRight: i < 3 ? '1px solid #222' : 'none' }}>
-              <div style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: '1.25rem', color: s.color }}>{s.val}</div>
-              <div style={{ color: 'var(--text-secondary)', fontSize: '0.78rem' }}>{s.label}</div>
+            <div key={i} style={{ borderRight: i < 3 ? '1px solid #eee' : 'none' }} className="mobile-no-border">
+              <div style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: '1.5rem', color: s.color }}>{s.val}</div>
+              <div style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', fontWeight: 600 }}>{s.label}</div>
             </div>
           ))}
         </div>
       </div>
 
       {/* ── MAIN FORM + LEADERBOARD ───────────────────────── */}
-      <section style={{ padding: '3rem 1.25rem 5rem', background: '#000' }}>
+      <section style={{ padding: '3rem 1.25rem 5rem', background: '#f8faff' }} className="no-overflow">
         <div className="container">
           <div className="grid-2" style={{ gap: '2.5rem', maxWidth: '1100px', margin: '0 auto' }}>
 
@@ -121,25 +137,32 @@ export const Donate: React.FC = () => {
                   <span style={{ color: 'var(--color-gold)', marginRight: '0.5rem' }}>01</span> Choose a Cause
                 </h2>
                 <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '1.25rem' }}>Where would you like your donation to go?</p>
-                <div className="grid-3" style={{ gap: '0.75rem' }}>
+                <div className="grid-2" style={{ gap: '0.75rem' }}>
                   {CAUSES.map(c => (
-                    <button key={c.id} onClick={() => setCause(c.id)} style={{
-                      padding: '1rem', borderRadius: '14px',
-                      border: `2px solid ${cause === c.id ? c.color : '#222'}`,
-                      background: cause === c.id ? `${c.color}18` : 'rgba(255,255,255,0.03)',
-                      cursor: 'pointer', textAlign: 'left', transition: 'all 0.2s', color: 'white',
-                    }}>
-                      <div style={{ color: c.color, marginBottom: '0.5rem' }}>{c.icon}</div>
-                      <div style={{ fontWeight: 700, fontSize: '0.88rem', marginBottom: '0.25rem' }}>{c.label}</div>
-                      <div style={{ color: 'var(--text-secondary)', fontSize: '0.73rem', lineHeight: 1.4 }}>{c.desc}</div>
-                      {cause === c.id && <div style={{ marginTop: '0.5rem' }}><CheckCircle size={14} color={c.color} /></div>}
-                    </button>
+                    <motion.button
+                      key={c.id}
+                      onClick={() => setCause(c.id)}
+                      whileHover={{ y: -3, boxShadow: `0 8px 24px ${c.color}25` }}
+                      whileTap={{ scale: 0.98 }}
+                      style={{
+                        padding: '1.1rem', borderRadius: '16px',
+                        border: `2px solid ${cause === c.id ? c.color : `${c.color}30`}`,
+                        background: cause === c.id ? `${c.color}12` : `${c.color}05`,
+                        cursor: 'pointer', textAlign: 'left', transition: 'border-color 0.2s, background 0.2s', color: 'inherit',
+                        boxShadow: cause === c.id ? `0 4px 20px ${c.color}20` : 'none',
+                      }}
+                    >
+                      <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: `${c.color}15`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: c.color, marginBottom: '0.65rem' }}>{c.icon}</div>
+                      <div style={{ fontWeight: 800, fontSize: '0.9rem', marginBottom: '0.25rem', color: cause === c.id ? c.color : 'var(--text-primary)' }}>{c.label}</div>
+                      <div style={{ color: 'var(--text-secondary)', fontSize: '0.76rem', lineHeight: 1.4 }}>{c.desc}</div>
+                      {cause === c.id && <div style={{ marginTop: '0.6rem', display: 'flex', alignItems: 'center', gap: '4px', color: c.color, fontSize: '0.75rem', fontWeight: 700 }}><CheckCircle size={13} color={c.color} /> Selected</div>}
+                    </motion.button>
                   ))}
                 </div>
               </motion.div>
 
               {/* Step 2: Amount */}
-              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="glass-panel" style={{ padding: '2rem', marginBottom: '1.5rem' }}>
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} style={{ background: 'rgba(26,86,219,0.04)', border: '1px solid rgba(26,86,219,0.12)', borderRadius: '20px', padding: '2rem', marginBottom: '1.5rem' }}>
                 <h2 style={{ fontSize: '1.3rem', marginBottom: '0.25rem' }}>
                   <span style={{ color: 'var(--color-gold)', marginRight: '0.5rem' }}>02</span> Choose Amount
                 </h2>
@@ -172,14 +195,14 @@ export const Donate: React.FC = () => {
                 />
 
                 {/* Recurring toggle */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem', padding: '0.9rem 1.1rem', borderRadius: '12px', background: recurring ? 'rgba(26,86,219,0.1)' : 'rgba(255,255,255,0.03)', border: `1px solid ${recurring ? 'rgba(26,86,219,0.4)' : '#222'}`, marginBottom: '1.25rem', cursor: 'pointer', transition: 'all 0.2s' }}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem', padding: '0.9rem 1.1rem', borderRadius: '12px', background: recurring ? 'rgba(26,86,219,0.05)' : '#fff', border: `1px solid ${recurring ? 'rgba(26,86,219,0.3)' : '#ddd'}`, marginBottom: '1.25rem', cursor: 'pointer', transition: 'all 0.2s' }}
                   onClick={() => setRecurring(r => !r)}>
-                  <RefreshCw size={18} color={recurring ? 'var(--color-primary)' : '#555'} />
+                  <RefreshCw size={18} color={recurring ? 'var(--color-primary)' : '#888'} />
                   <div style={{ flex: 1 }}>
-                    <div style={{ fontWeight: 700, fontSize: '0.9rem', color: recurring ? 'var(--color-primary)' : 'white' }}>Monthly Recurring Donation</div>
+                    <div style={{ fontWeight: 700, fontSize: '0.9rem', color: recurring ? 'var(--color-primary)' : 'var(--text-primary)' }}>Monthly Recurring Donation</div>
                     <div style={{ fontSize: '0.78rem', color: 'var(--text-secondary)' }}>Give every month — cancel any time. More impact for students.</div>
                   </div>
-                  <div style={{ width: '40px', height: '22px', borderRadius: '11px', background: recurring ? 'var(--color-primary)' : '#333', position: 'relative', transition: 'background 0.2s', flexShrink: 0 }}>
+                  <div style={{ width: '40px', height: '22px', borderRadius: '11px', background: recurring ? 'var(--color-primary)' : '#ddd', position: 'relative', transition: 'background 0.2s', flexShrink: 0 }}>
                     <div style={{ position: 'absolute', top: '3px', left: recurring ? '19px' : '3px', width: '16px', height: '16px', borderRadius: '50%', background: 'white', transition: 'left 0.2s' }} />
                   </div>
                 </div>
@@ -229,7 +252,7 @@ export const Donate: React.FC = () => {
                   ].map((p, i) => (
                     <div key={i} style={{
                       padding: '0.5rem 0.9rem', borderRadius: '8px', fontSize: '0.8rem', fontWeight: 600,
-                      background: `${p.color}18`, border: `1px solid ${p.color}44`, color: 'white',
+                      background: `${p.color}08`, border: `1px solid ${p.color}22`, color: 'var(--text-primary)',
                       display: 'flex', alignItems: 'center', gap: '0.4rem',
                     }}>
                       <span>{p.emoji}</span> {p.name}
@@ -243,7 +266,7 @@ export const Donate: React.FC = () => {
             <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
 
               {/* Leaderboard */}
-              <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.25 }} className="glass-panel" style={{ padding: '1.75rem' }}>
+              <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.25 }} style={{ padding: '1.75rem', background: 'rgba(212,175,55,0.06)', border: '1px solid rgba(212,175,55,0.2)', borderRadius: '20px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.5rem' }}>
                   <Trophy size={22} color="var(--color-gold)" />
                   <div>
@@ -286,12 +309,11 @@ export const Donate: React.FC = () => {
                   {TRUST_BADGES.map((b, i) => (
                     <motion.div
                       key={i}
-                      className="glass-panel"
-                      style={{ padding: '1.25rem', display: 'flex', flexDirection: 'column', gap: '0.6rem' }}
+                      style={{ padding: '1.25rem', display: 'flex', flexDirection: 'column', gap: '0.6rem', borderRadius: '16px', background: i % 2 === 0 ? 'rgba(26,86,219,0.06)' : 'rgba(0,154,68,0.06)', border: `1px solid ${i % 2 === 0 ? 'rgba(26,86,219,0.12)' : 'rgba(0,154,68,0.12)'}` }}
                       initial={{ opacity: 0, y: 15 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.45 + i * 0.08 }}
-                      whileHover={{ y: -3, borderColor: 'rgba(26,86,219,0.3)' }}
+                      whileHover={{ y: -3 }}
                     >
                       <div style={{ color: 'var(--color-primary)' }}>{b.icon}</div>
                       <div style={{ fontWeight: 700, fontSize: '0.9rem' }}>{b.title}</div>
@@ -302,7 +324,7 @@ export const Donate: React.FC = () => {
               </motion.div>
 
               {/* Live donor feed */}
-              <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.5 }} className="glass-panel" style={{ padding: '1.5rem' }}>
+              <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.5 }} style={{ padding: '1.5rem', background: 'rgba(0,154,68,0.05)', border: '1px solid rgba(0,154,68,0.15)', borderRadius: '20px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
                   <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#22c55e', animation: 'pulse-ring 2s infinite' }} />
                   <span style={{ fontWeight: 700, fontSize: '0.9rem' }}>Live Donations</span>
@@ -314,9 +336,9 @@ export const Donate: React.FC = () => {
                   { name: 'Grace M.',     amount: 'Mk 25,000', cause: 'Housing',      time: '31m ago' },
                 ].map((d, i) => (
                   <motion.div key={i} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.6 + i * 0.08 }}
-                    style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0.6rem 0', borderBottom: i < 3 ? '1px solid #1a1a1a' : 'none' }}>
+                    style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0.6rem 0', borderBottom: i < 3 ? '1px solid #eee' : 'none' }}>
                     <div>
-                      <div style={{ fontWeight: 600, fontSize: '0.85rem' }}>❤️ {d.name}</div>
+                      <div style={{ fontWeight: 600, fontSize: '0.85rem', color: 'var(--text-primary)' }}>❤️ {d.name}</div>
                       <div style={{ color: 'var(--text-secondary)', fontSize: '0.73rem' }}>{d.cause}</div>
                     </div>
                     <div style={{ textAlign: 'right' }}>

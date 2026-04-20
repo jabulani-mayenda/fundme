@@ -45,22 +45,23 @@ export const PaymentModal: React.FC<Props> = ({ amount, onClose }) => {
         transition={{ type: 'spring', stiffness: 280, damping: 28 }}
         style={{
           position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%,-50%)',
-          zIndex: 301, width: '94%', maxWidth: '480px',
-          background: '#0d0d0d', borderRadius: '24px',
-          border: '1px solid #222', overflow: 'hidden',
+          zIndex: 301, width: '94%', maxWidth: '440px',
+          background: '#ffffff', borderRadius: '28px',
+          border: '1px solid #eee', overflow: 'hidden',
           maxHeight: '90vh', overflowY: 'auto',
+          boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
         }}
       >
         {/* Header */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1.5rem 1.5rem 1rem', borderBottom: '1px solid #1a1a1a' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1.75rem 1.75rem 1.25rem', borderBottom: '1px solid #f3f4f6' }}>
           <div>
-            <div style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '1px' }}>Donating</div>
-            <div style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: '1.7rem', color: 'var(--color-gold)' }}>
+            <div style={{ fontSize: '0.7rem', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '1.2px', fontWeight: 700 }}>Donating</div>
+            <div style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: '1.8rem', color: 'var(--color-primary)' }}>
               Mk {amount.toLocaleString()}
             </div>
           </div>
-          <button onClick={onClose} style={{ color: '#666', background: 'rgba(255,255,255,0.06)', border: 'none', borderRadius: '50%', width: '36px', height: '36px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
-            <X size={18} />
+          <button onClick={onClose} style={{ color: '#999', background: '#f3f4f6', border: 'none', borderRadius: '50%', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+            <X size={16} />
           </button>
         </div>
 
@@ -73,14 +74,14 @@ export const PaymentModal: React.FC<Props> = ({ amount, onClose }) => {
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', marginBottom: '1.5rem' }}>
                 {METHODS.map(m => (
                   <button key={m.id} onClick={() => setMethod(m)} style={{
-                    display: 'flex', alignItems: 'center', gap: '1rem', padding: '0.9rem 1.1rem',
-                    borderRadius: '12px', border: `2px solid ${method.id === m.id ? m.color : '#222'}`,
-                    background: method.id === m.id ? `${m.color}18` : 'rgba(255,255,255,0.03)',
-                    cursor: 'pointer', textAlign: 'left', color: 'white', transition: 'all 0.2s',
+                    display: 'flex', alignItems: 'center', gap: '1rem', padding: '1rem 1.1rem',
+                    borderRadius: '16px', border: `2px solid ${method.id === m.id ? m.color : '#f3f4f6'}`,
+                    background: method.id === m.id ? `${m.color}08` : '#f9fafb',
+                    cursor: 'pointer', textAlign: 'left', color: 'inherit', transition: 'all 0.2s',
                   }}>
                     <span style={{ fontSize: '1.5rem', lineHeight: 1 }}>{m.emoji}</span>
                     <div style={{ flex: 1 }}>
-                      <div style={{ fontWeight: 700, fontSize: '0.95rem' }}>{m.label}</div>
+                      <div style={{ fontWeight: 700, fontSize: '1rem', color: 'var(--text-primary)' }}>{m.label}</div>
                     </div>
                     {method.id === m.id && <CheckCircle size={18} color={m.color} />}
                   </button>
@@ -95,11 +96,11 @@ export const PaymentModal: React.FC<Props> = ({ amount, onClose }) => {
           {/* ── STEP 2: Details ────────────────────────── */}
           {step === 'details' && (
             <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.5rem', padding: '1rem', borderRadius: '12px', background: `${method.color}18`, border: `1px solid ${method.color}44` }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.5rem', padding: '1.1rem', borderRadius: '16px', background: `${method.color}08`, border: `1px solid ${method.color}15` }}>
                 <span style={{ fontSize: '1.8rem' }}>{method.emoji}</span>
                 <div>
-                  <div style={{ fontWeight: 700 }}>{method.label}</div>
-                  <div style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', marginTop: '2px' }}>{method.instruction}</div>
+                  <div style={{ fontWeight: 700, color: 'var(--text-primary)' }}>{method.label}</div>
+                  <div style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', marginTop: '2px', lineHeight: 1.4 }}>{method.instruction}</div>
                 </div>
               </div>
 
@@ -152,16 +153,16 @@ export const PaymentModal: React.FC<Props> = ({ amount, onClose }) => {
           {step === 'success' && (
             <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} style={{ textAlign: 'center', padding: '2rem 0' }}>
               <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 200, delay: 0.2 }} style={{ marginBottom: '1.5rem' }}>
-                <CheckCircle size={64} color="var(--color-gold)" style={{ margin: '0 auto' }} />
+                <CheckCircle size={64} color="#10b981" style={{ margin: '0 auto' }} />
               </motion.div>
-              <h3 style={{ fontSize: '1.6rem', marginBottom: '0.5rem', color: 'var(--color-gold)' }}>Thank You! 🎉</h3>
-              <p style={{ color: 'rgba(255,255,255,0.85)', fontSize: '1.05rem', marginBottom: '0.5rem' }}>
-                <strong>Mk {amount.toLocaleString()}</strong> donated successfully via {method.label}.
+              <h3 style={{ fontSize: '1.8rem', marginBottom: '0.5rem', color: '#065f46' }}>Thank You! 🎉</h3>
+              <p style={{ color: 'var(--text-primary)', fontSize: '1.1rem', marginBottom: '0.5rem', fontWeight: 600 }}>
+                Mk {amount.toLocaleString()} donated.
               </p>
               <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '2rem', lineHeight: 1.6 }}>
                 You'll receive a receipt shortly. Your generosity is changing a student's life right now.
               </p>
-              <button className="pill-btn" style={{ maxWidth: '240px', margin: '0 auto', background: 'var(--gradient-gold)', color: '#000' }} onClick={onClose}>
+              <button className="pill-btn" style={{ maxWidth: '240px', margin: '0 auto' }} onClick={onClose}>
                 Done
               </button>
             </motion.div>

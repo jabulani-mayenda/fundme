@@ -71,7 +71,7 @@ export const Internships: React.FC = () => {
       </section>
 
       {/* ── HOW IT WORKS ──────────────────────────────── */}
-      <section style={{ padding: '5rem 1.25rem', background: '#000' }}>
+      <section style={{ padding: '5rem 1.25rem', background: '#fff' }}>
         <div className="container">
           <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
             <div className="section-label" style={{ margin: '0 auto 1rem' }}>The Journey</div>
@@ -80,12 +80,12 @@ export const Internships: React.FC = () => {
           <div className="grid-4">
             {STEPS.map((s, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.12 }}
-                style={{ display: 'flex', gap: '1.25rem', position: 'relative', zIndex: 1 }}>
+                style={{ display: 'flex', gap: '1.25rem', position: 'relative', zIndex: 1, background: i % 2 === 0 ? 'rgba(26,86,219,0.04)' : 'rgba(212,175,55,0.04)', borderRadius: '16px', padding: '1.25rem', border: `1px solid ${i % 2 === 0 ? 'rgba(26,86,219,0.1)' : 'rgba(212,175,55,0.1)'}` }}>
                 <div style={{ width: '50px', height: '50px', borderRadius: '50%', background: i % 2 === 0 ? 'var(--gradient-blue)' : 'var(--gradient-gold)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, color: i % 2 === 0 ? 'white' : 'black', boxShadow: i % 2 === 0 ? 'var(--shadow-blue)' : 'var(--shadow-gold)' }}>
                   {s.icon}
                 </div>
                 <div>
-                  <h3 style={{ fontSize: '1.05rem', marginBottom: '0.4rem' }}>{s.title}</h3>
+                  <h3 style={{ fontSize: '1.05rem', marginBottom: '0.4rem', color: 'var(--text-primary)' }}>{s.title}</h3>
                   <p style={{ color: 'var(--text-secondary)', fontSize: '0.88rem', margin: 0, lineHeight: 1.6 }}>{s.desc}</p>
                 </div>
               </motion.div>
@@ -95,12 +95,12 @@ export const Internships: React.FC = () => {
       </section>
 
       {/* ── PARTNER STRIP ─────────────────────────────── */}
-      <section style={{ padding: '2.5rem 1.25rem', background: '#0a0a0a', borderTop: '1px solid #1a1a1a', borderBottom: '1px solid #1a1a1a' }}>
+      <section style={{ padding: '2.5rem 1.25rem', background: '#f8faff', borderTop: '1px solid #eee', borderBottom: '1px solid #eee' }}>
         <div className="container" style={{ textAlign: 'center' }}>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', marginBottom: '1.5rem', textTransform: 'uppercase', letterSpacing: '2px' }}>Trusted Employer Partners</p>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', marginBottom: '1.5rem', textTransform: 'uppercase', letterSpacing: '2px', fontWeight: 700 }}>Trusted Employer Partners</p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem', justifyContent: 'center' }}>
             {PARTNERS.map((p, i) => (
-              <motion.div key={i} whileHover={{ scale: 1.08 }} className="chip glass-panel" style={{ padding: '0.5rem 1.2rem', background: `${p.color}15`, border: `1px solid ${p.color}44`, color: p.color, fontSize: '0.85rem' }}>
+              <motion.div key={i} whileHover={{ scale: 1.08 }} className="chip" style={{ padding: '0.6rem 1.4rem', background: `${p.color}12`, border: `1px solid ${p.color}33`, color: p.color, fontSize: '0.9rem', fontWeight: 700, borderRadius: '50px', boxShadow: `0 2px 8px ${p.color}15` }}>
                 {p.name}
               </motion.div>
             ))}
@@ -109,10 +109,10 @@ export const Internships: React.FC = () => {
       </section>
 
       {/* ── LISTINGS ─────────────────────────────────── */}
-      <section id="listings" style={{ padding: '4rem 1.25rem 7rem', background: '#000' }}>
+      <section id="listings" style={{ padding: '4rem 1.25rem 7rem', background: '#fff' }}>
         <div className="container">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem', flexWrap: 'wrap', gap: '1rem' }}>
-            <h2 style={{ fontSize: 'clamp(1.8rem, 3vw, 2.4rem)' }}>Featured <span style={{ color: 'var(--color-gold)' }}>Listings</span></h2>
+            <h2 style={{ fontSize: 'clamp(1.8rem, 3vw, 2.4rem)', color: 'var(--text-primary)' }}>Featured <span style={{ color: 'var(--color-gold)' }}>Listings</span></h2>
             <div style={{ position: 'relative' }}>
               <Search size={15} style={{ position: 'absolute', left: '0.9rem', top: '50%', transform: 'translateY(-50%)', color: '#555' }} />
               <input className="form-input" value={search} onChange={e => setSearch(e.target.value)} placeholder="Search roles or companies..." style={{ paddingLeft: '2.3rem', width: '280px' }} />
@@ -122,14 +122,15 @@ export const Internships: React.FC = () => {
           <div className="grid-3">
             {filtered.map((job, idx) => (
               <motion.div key={job.id} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: idx * 0.08 }}
-                className="glass-panel" style={{ padding: '1.75rem', display: 'flex', flexDirection: 'column', borderTop: `3px solid ${job.color}` }}>
+                style={{ padding: '1.75rem', display: 'flex', flexDirection: 'column', borderRadius: '20px', borderTop: `4px solid ${job.color}`, background: `${job.color}08`, border: `1px solid ${job.color}20`, borderTopWidth: '4px', borderTopStyle: 'solid', borderTopColor: job.color, boxShadow: `0 4px 20px ${job.color}10`, transition: 'transform 0.3s, box-shadow 0.3s' }}
+                whileHover={{ y: -4, boxShadow: `0 12px 30px ${job.color}20` }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
                   <div style={{ fontSize: '2.5rem', lineHeight: 1 }}>{job.logo}</div>
-                  <span className="chip" style={{ background: job.type === 'Paid' ? 'rgba(76,159,56,0.15)' : 'rgba(212,175,55,0.15)', color: job.type === 'Paid' ? '#4c9f38' : '#d4af37', border: `1px solid ${job.type === 'Paid' ? '#4c9f3644' : '#d4af3744'}` }}>
+                  <span className="chip" style={{ background: job.type === 'Paid' ? 'rgba(76,159,56,0.12)' : 'rgba(212,175,55,0.12)', color: job.type === 'Paid' ? '#4c9f38' : '#d4af37', border: `1px solid ${job.type === 'Paid' ? '#4c9f3830' : '#d4af3730'}` }}>
                     {job.type}
                   </span>
                 </div>
-                <h3 style={{ fontSize: '1.1rem', marginBottom: '0.4rem', lineHeight: 1.3 }}>{job.role}</h3>
+                <h3 style={{ fontSize: '1.1rem', marginBottom: '0.4rem', lineHeight: 1.3, color: 'var(--text-primary)' }}>{job.role}</h3>
                 <div style={{ fontWeight: 700, color: job.color, marginBottom: '0.75rem' }}>{job.company}</div>
                 <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', fontSize: '0.82rem', color: 'var(--text-secondary)', marginBottom: '1rem' }}>
                   <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><MapPin size={12} />{job.loc}</span>
@@ -137,7 +138,7 @@ export const Internships: React.FC = () => {
                 </div>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem', marginBottom: '1rem' }}>
                   {job.skills.map(sk => (
-                    <span key={sk} className="chip" style={{ background: 'rgba(255,255,255,0.06)', color: 'var(--text-secondary)', fontSize: '0.72rem', padding: '0.2rem 0.6rem' }}>{sk}</span>
+                    <span key={sk} className="chip" style={{ background: `${job.color}10`, color: job.color, border: `1px solid ${job.color}25`, fontSize: '0.72rem', padding: '0.25rem 0.7rem' }}>{sk}</span>
                   ))}
                 </div>
                 <div style={{ marginTop: 'auto' }}>
