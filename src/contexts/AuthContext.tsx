@@ -38,12 +38,24 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, []);
 
   const signInWithGoogle = async () => {
-    const redirectTo = `${window.location.origin}/dashboard`;
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: { redirectTo, queryParams: { access_type: 'offline', prompt: 'consent' } },
-    });
-    if (error) console.error('Google sign-in error:', error.message);
+    try {
+      const redirectTo = `${window.location.origin}/dashboard`;
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo,
+          queryParams: {
+            access_type: 'offline',
+            prompt: 'consent',
+          },
+        },
+      });
+      if (error) throw error;
+      if (data.url) window.location.href = data.url;
+    } catch (error: any) {
+      console.error('Detailed Google sign-in error:', error);
+      alert('Google Sign-In failed. Please try Email or Phone method.');
+    }
   };
 
   const signInWithEmail = async (email: string) => {

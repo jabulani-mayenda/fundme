@@ -88,25 +88,44 @@ export const Home: React.FC = () => {
           }} />
         ))}
 
+        {/* ✨ CREATIVE ELEMENT 1: SPINNING ORBITS ✨ */}
+        <div style={{ position: 'absolute', top: '20%', right: '-150px', width: '600px', height: '600px', pointerEvents: 'none', zIndex: 0 }}>
+          {[600, 400, 200].map((s, i) => (
+            <div key={i} style={{ 
+              position: 'absolute', top: '50%', left: '50%', 
+              transform: 'translate(-50%,-50%)', 
+              width: s, height: s, borderRadius: '50%', 
+              border: `1px solid rgba(255,255,255,${0.05 + i * 0.03})`, 
+              animation: `${i % 2 === 0 ? 'spin-slow' : 'spin-slow-reverse'} ${50 + i * 15}s linear infinite` 
+            }} />
+          ))}
+        </div>
+
+        {/* ✨ CREATIVE ELEMENT 2: FLOATING BADGES ✨ */}
+        <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
+           <motion.div animate={{ y: [0, -20, 0] }} transition={{ duration: 5, repeat: Infinity }} style={{ position: 'absolute', top: '30%', left: '5%', color: 'var(--color-gold)', opacity: 0.6 }}><Star size={40} fill="currentColor" /></motion.div>
+           <motion.div animate={{ y: [0, 25, 0] }} transition={{ duration: 6, repeat: Infinity, delay: 1 }} style={{ position: 'absolute', bottom: '40%', right: '10%', color: 'var(--color-primary)', opacity: 0.5 }}><Heart size={60} fill="currentColor" /></motion.div>
+        </div>
+
         <div className="container" style={{ position: 'relative', zIndex: 2, paddingBottom: '6rem' }}>
           <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: 'easeOut' }}>
-            <div className="section-label" style={{ marginBottom: '1.5rem' }}>
-              <Heart size={12} fill="currentColor" /> Malawi's Student Relief Platform
+            <div className="glass-pill" style={{ marginBottom: '1.5rem' }}>
+              <Heart size={14} fill="currentColor" /> Malawi's Student Relief Platform
             </div>
-            <h1 style={{ fontSize: 'clamp(2.8rem, 8vw, 5.5rem)', color: 'white', marginBottom: '1.25rem', lineHeight: 1.05 }}>
+            <h1 style={{ fontSize: 'clamp(3.2rem, 9vw, 6rem)', color: 'white', marginBottom: '1.25rem', lineHeight: 1, fontWeight: 900 }}>
               Every Malawian<br />
-              Student <span style={{ color: 'var(--color-primary)' }}>Deserves</span><br />
+              Student <span className="text-shine">Deserves</span><br />
               <span style={{ color: 'var(--color-gold)' }}>A Chance.</span>
             </h1>
-            <p style={{ fontSize: 'clamp(1rem, 2vw, 1.25rem)', color: 'rgba(255,255,255,0.85)', maxWidth: '560px', marginBottom: '2.5rem', lineHeight: 1.7 }}>
-              Tuition fees, laptops, internships, and national recognition — we bridge the gap between talent and opportunity for students across Malawi.
+            <p style={{ fontSize: 'clamp(1.1rem, 2vw, 1.35rem)', color: 'rgba(255,255,255,0.8)', maxWidth: '600px', marginBottom: '3rem', lineHeight: 1.7 }}>
+              Tuition, laptops, and housing — we bridge the gap between talent and opportunity for students across the nation.
             </p>
-            <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', maxWidth: '500px' }}>
-              <Link to="/donate" className="pill-btn" style={{ flex: 1, minWidth: '160px', maxWidth: '220px' }}>
-                <Heart size={18} fill="white" /> Donate Now
+            <div style={{ display: 'flex', gap: '1.25rem', flexWrap: 'wrap' }}>
+              <Link to="/donate" className="pill-btn animate-glow-blue" style={{ width: 'auto', minWidth: '200px', fontSize: '1.1rem' }}>
+                <Heart size={20} fill="white" /> Donate Now
               </Link>
-              <Link to="/campaigns" className="pill-btn pill-btn-ghost" style={{ flex: 1, minWidth: '160px', maxWidth: '220px' }}>
-                View Campaigns <ArrowRight size={16} />
+              <Link to="/campaigns" className="pill-btn pill-btn-ghost" style={{ width: 'auto', minWidth: '200px', fontSize: '1.1rem', borderColor: 'rgba(255,255,255,0.4)' }}>
+                View Campaigns <ArrowRight size={18} />
               </Link>
             </div>
           </motion.div>

@@ -2,50 +2,33 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AnimatedLayout } from '../components/AnimatedLayout';
 import { PaymentModal } from '../components/PaymentModal';
-import {
-  Heart, CheckCircle, BookOpen, Laptop, Home as HomeIcon,
-  Briefcase, Trophy, Zap, Shield, Users, RefreshCw, Star,
-} from 'lucide-react';
+import { Heart, CheckCircle, BookOpen, Laptop, Home as HomeIcon, Briefcase, Trophy, Zap, Shield, Users, RefreshCw, Star, ArrowRight, Sparkles } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const AMOUNTS = [5000, 15000, 25000, 50000, 100000, 250000];
 
 const CAUSES = [
-  { id: 'fees',       icon: <BookOpen size={20} />,  label: 'School Fees',     color: '#ce1126', desc: 'Covers tuition at UNIMA, MUBAS, MUST and others.' },
-  { id: 'laptop',     icon: <Laptop size={20} />,    label: 'ICT / Laptop',    color: '#009a44', desc: 'Provides a refurbished laptop for a student in need.' },
-  { id: 'housing',    icon: <HomeIcon size={20} />,  label: 'Housing & Rent',  color: '#1a56db', desc: 'Covers hostel or private rent near campus.' },
-  { id: 'internship', icon: <Briefcase size={20} />, label: 'Internship Fund', color: '#d4af37', desc: 'Pays transport & setup costs for a new intern.' },
-  { id: 'awards',     icon: <Trophy size={20} />,    label: 'Awards Prize',    color: '#dd1367', desc: 'Funds ICT prizes for top-performing students.' },
-  { id: 'general',    icon: <Heart size={20} />,     label: 'General Fund',    color: '#7c3aed', desc: 'Split across highest-priority student needs.' },
+  { id: 'fees',       icon: <BookOpen size={24} />,  label: 'School Fees',     color: '#1a56db', desc: 'Covers tuition at UNIMA, MUBAS, MUST and more.' },
+  { id: 'laptop',     icon: <Laptop size={24} />,    label: 'ICT / Laptop',    color: '#009a44', desc: 'Provides refurbished laptops for students.' },
+  { id: 'housing',    icon: <HomeIcon size={24} />,  label: 'Housing & Rent',  color: '#7c3aed', desc: 'Covers hostel or private rent near campus.' },
+  { id: 'internship', icon: <Briefcase size={24} />, label: 'Internship Fund', color: '#d97706', desc: 'Pays transport & setup for new interns.' },
+  { id: 'awards',     icon: <Trophy size={24} />,    label: 'Awards Prize',    color: '#ce1126', desc: 'Funds prizes for top-performing students.' },
+  { id: 'general',    icon: <Heart size={24} />,     label: 'General Fund',    color: '#0891b2', desc: 'Split across highest-priority student needs.' },
 ];
 
-const IMPACT = [
-  { amount: 5000,   text: 'Buys a full set of exam stationery for one student.' },
-  { amount: 15000,  text: 'Covers a month of internet data for a rural student.' },
-  { amount: 25000,  text: 'Pays two weeks of hostel rent near a university.' },
-  { amount: 50000,  text: 'Funds one month of tuition at a community college.' },
-  { amount: 100000, text: 'Covers half a semester of fees at UNIMA or MUBAS.' },
-  { amount: 250000, text: 'Provides a full refurbished laptop to a CompSci student.' },
-];
-
-const LEADERBOARD = [
-  { rank: 1, name: 'Standard Bank Malawi', amount: 'Mk 2,500,000', avatar: '🏦', badge: '👑' },
-  { rank: 2, name: 'Airtel Malawi CSR',    amount: 'Mk 1,800,000', avatar: '📱', badge: '🥈' },
-  { rank: 3, name: 'Anonymous Hero',       amount: 'Mk 950,000',   avatar: '🎭', badge: '🥉' },
-  { rank: 4, name: 'Chifundo Mwanza',      amount: 'Mk 450,000',   avatar: '👤', badge: '⭐' },
-  { rank: 5, name: 'Grace Kamanga',        amount: 'Mk 300,000',   avatar: '👤', badge: '⭐' },
-];
-
-const TRUST_BADGES = [
-  { icon: <Shield size={22} />, title: '100% Verified',       desc: 'Every student is ID-verified through their university.' },
-  { icon: <Star size={22} />,   title: 'Zero Platform Fees',  desc: 'All donations go directly to the cause you chose.' },
-  { icon: <Users size={22} />,  title: '3,500+ Students',     desc: 'Real lives changed across all 28 districts of Malawi.' },
-  { icon: <Zap size={22} />,    title: 'Instant Receipts',    desc: 'Get an email receipt within seconds of your donation.' },
-];
+const IMPACT: Record<number, string> = {
+  5000: 'Buys a full set of exam stationery.',
+  15000: 'Covers a month of internet data.',
+  25000: 'Pays two weeks of hostel rent.',
+  50000: 'Funds one month of tuition.',
+  100000: 'Half a semester of fees at UNIMA.',
+  250000: 'A full refurbished laptop for a student.',
+};
 
 function getImpact(amount: number) {
-  const match = [...IMPACT].reverse().find(i => amount >= i.amount);
-  if (!match) return 'Every kwacha helps bridge the education gap.';
-  return match.text;
+  const keys = Object.keys(IMPACT).map(Number).sort((a, b) => a - b);
+  const match = [...keys].reverse().find(k => amount >= k);
+  return match ? IMPACT[match] : 'Every kwacha helps bridge the education gap.';
 }
 
 export const Donate: React.FC = () => {
@@ -54,306 +37,283 @@ export const Donate: React.FC = () => {
   const [cause, setCause]         = useState('fees');
   const [modalOpen, setModalOpen] = useState(false);
   const [recurring, setRecurring] = useState(false);
-
+  
   const finalAmount = custom ? Number(custom) : amount;
 
   return (
     <AnimatedLayout>
-      {/* ── HERO ─────────────────────────────────────────── */}
-      <section className="dark-section" style={{ position: 'relative', minHeight: '50vh', display: 'flex', alignItems: 'flex-end', padding: '3rem 1.25rem', overflow: 'hidden' }}>
-        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'url("https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=1400&q=80")', backgroundSize: 'cover', backgroundPosition: 'center', opacity: 0.28 }} />
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.97) 100%)' }} />
-        <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 20% 50%, rgba(26,86,219,0.18) 0%, transparent 60%)' }} />
-        {/* Malawi stripe */}
-        <div className="mw-stripe" style={{ position: 'absolute', bottom: 0, left: 0, right: 0 }} />
-
-        {/* ✨ SPINNING ORBIT RINGS (top-right corner) ✨ */}
-        <div style={{ position: 'absolute', top: '-80px', right: '-80px', width: '380px', height: '380px', pointerEvents: 'none', zIndex: 0 }}>
-          {[380, 260, 150].map((size, i) => (
-            <div key={i} style={{
-              position: 'absolute', top: '50%', left: '50%',
-              transform: 'translate(-50%, -50%)',
-              width: `${size}px`, height: `${size}px`, borderRadius: '50%',
-              border: `1px solid rgba(255,255,255,${0.06 + i * 0.04})`,
-              animation: i % 2 === 0 ? `spin-slow ${40 + i * 15}s linear infinite` : `spin-slow-reverse ${30 + i * 10}s linear infinite`,
-            }}>
-              <div style={{ position: 'absolute', top: '-4px', left: '50%', transform: 'translateX(-50%)', width: '8px', height: '8px', borderRadius: '50%', background: i === 0 ? '#ce1126' : i === 1 ? '#009a44' : '#d4af37', boxShadow: '0 0 10px currentColor' }} />
-            </div>
+      {/* ── HERO SECTION WITH DRAMATIC CREATIVE ELEMENTS ── */}
+      <section style={{ 
+        position: 'relative', 
+        minHeight: '45vh', 
+        display: 'flex', 
+        alignItems: 'center', 
+        justifyContent: 'center',
+        padding: '6rem 2rem', 
+        overflow: 'hidden', 
+        background: '#0a0f1e',
+        textAlign: 'center'
+      }}>
+        {/* Background Image with optimized overlay */}
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'url("https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1400&q=80")', backgroundSize: 'cover', backgroundPosition: 'center 30%', opacity: 0.3 }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(10,15,30,0.5) 0%, rgba(10,15,30,0.95) 100%)' }} />
+        
+        {/* ✨ CREATIVE ELEMENT 1: GIANT SPINNING ORBIT ✨ */}
+        <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '800px', height: '800px', pointerEvents: 'none', zIndex: 0 }}>
+          {[800, 600, 400].map((s, i) => (
+            <div key={i} style={{ 
+              position: 'absolute', top: '50%', left: '50%', 
+              transform: 'translate(-50%,-50%)', 
+              width: s, height: s, borderRadius: '50%', 
+              border: `1px dashed rgba(255,255,255,${0.03 + i * 0.02})`, 
+              animation: `${i % 2 === 0 ? 'spin-slow' : 'spin-slow-reverse'} ${60 + i * 20}s linear infinite` 
+            }} />
           ))}
         </div>
 
-        {/* Floating particles */}
-        {[...Array(6)].map((_, i) => (
-          <div key={i} className="particle" style={{
-            width: `${4 + (i % 3) * 3}px`, height: `${4 + (i % 3) * 3}px`,
-            background: i % 2 === 0 ? 'var(--color-primary)' : 'var(--color-gold)',
-            left: `${10 + i * 14}%`, bottom: `${20 + (i % 3) * 12}%`,
-            animationDuration: `${4 + i * 0.7}s`, animationDelay: `${i * 0.4}s`,
-          }} />
-        ))}
-        <div className="container" style={{ position: 'relative', zIndex: 1 }}>
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
-            <div className="section-label" style={{ marginBottom: '1rem' }}>
-              <Heart size={12} fill="currentColor" /> Make a Difference
+        {/* ✨ CREATIVE ELEMENT 2: FLOATING MALAWI SPHERES ✨ */}
+        <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
+           <div className="animate-float-sphere" style={{ position: 'absolute', top: '15%', left: '10%', width: '60px', height: '60px', borderRadius: '50%', background: 'radial-gradient(circle at 30% 30%, #ce1126, #000)', opacity: 0.4, filter: 'blur(2px)' }} />
+           <div className="animate-float-sphere" style={{ position: 'absolute', bottom: '20%', right: '15%', width: '40px', height: '40px', borderRadius: '50%', background: 'radial-gradient(circle at 30% 30%, #009a44, #000)', opacity: 0.3, filter: 'blur(1px)', animationDelay: '2s' }} />
+           <div className="animate-float-sphere" style={{ position: 'absolute', top: '40%', right: '8%', width: '80px', height: '80px', borderRadius: '50%', background: 'radial-gradient(circle at 30% 30%, #d4af37, #000)', opacity: 0.2, filter: 'blur(3px)', animationDelay: '4s' }} />
+        </div>
+
+        <div className="container" style={{ position: 'relative', zIndex: 1, maxWidth: '1000px' }}>
+          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
+            <div className="glass-pill" style={{ marginBottom: '1.5rem' }}>
+              <Sparkles size={14} className="text-shine" /> Empowering Malawi's Youth
             </div>
-            <h1 style={{ fontSize: 'clamp(2.4rem, 7vw, 4.5rem)', lineHeight: 1.05, marginBottom: '1rem', color: 'white' }}>
-              Your Donation.<br />
-              <span style={{ color: 'var(--color-primary)' }}>Their Future.</span>
+            <h1 style={{ fontSize: 'clamp(2.8rem, 8vw, 5rem)', color: 'white', marginBottom: '1.25rem', lineHeight: 1.05, fontWeight: 900 }}>
+              Fuel a <span className="text-shine">Student's</span><br />
+              Bright Future.
             </h1>
-            <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '1.05rem', maxWidth: '520px' }}>
-              100% of your contribution goes directly to verified Malawian students. Choose a cause, pick an amount, and pay instantly.
+            <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '1.15rem', maxWidth: '600px', margin: '0 auto', lineHeight: 1.6 }}>
+              Your generosity directly funds education, technology, and housing for Malawian university students in need.
             </p>
           </motion.div>
         </div>
       </section>
 
-      {/* ── STATS BAR ────────────────────────────────────── */}
-      <div style={{ background: '#fff', borderBottom: '1px solid #eee', padding: '1.5rem 1.25rem' }}>
-        <div className="container grid-4" style={{ gap: '1.5rem', textAlign: 'center' }}>
-          {[
-            { val: 'Mk 50M+', label: 'Total Raised',      color: 'var(--color-primary)' },
-            { val: '3,500+',  label: 'Students Helped',   color: 'var(--color-gold)' },
-            { val: '94%',     label: 'Campaign Success',  color: 'var(--color-primary)' },
-            { val: '28',      label: 'Districts Covered', color: 'var(--color-gold)' },
-          ].map((s, i) => (
-            <div key={i} style={{ borderRight: i < 3 ? '1px solid #eee' : 'none' }} className="mobile-no-border">
-              <div style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: '1.5rem', color: s.color }}>{s.val}</div>
-              <div style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', fontWeight: 600 }}>{s.label}</div>
-            </div>
-          ))}
-        </div>
-      </div>
+      {/* ── MAIN CONTENT AREA ── */}
+      <section style={{ padding: '4rem 1.25rem 6rem', background: '#f8faff', position: 'relative' }}>
+        {/* ✨ CREATIVE ELEMENT 3: WAVE DIVIDER ✨ */}
+        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '100px', background: 'linear-gradient(to bottom, #0a0f1e, transparent)', opacity: 0.1 }} />
 
-      {/* ── MAIN FORM + LEADERBOARD ───────────────────────── */}
-      <section style={{ padding: '3rem 1.25rem 5rem', background: '#f8faff' }} className="no-overflow">
-        <div className="container">
-          <div className="grid-2" style={{ gap: '2.5rem', maxWidth: '1100px', margin: '0 auto' }}>
-
-            {/* LEFT – Donation Form */}
-            <div>
-              {/* Step 1: Cause */}
-              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} style={{ marginBottom: '2.5rem' }}>
-                <h2 style={{ fontSize: '1.3rem', marginBottom: '0.25rem' }}>
-                  <span style={{ color: 'var(--color-gold)', marginRight: '0.5rem' }}>01</span> Choose a Cause
-                </h2>
-                <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '1.25rem' }}>Where would you like your donation to go?</p>
-                <div className="grid-2" style={{ gap: '0.75rem' }}>
+        <div className="container" style={{ maxWidth: '1100px', margin: '0 auto' }}>
+          <div className="grid-2" style={{ gap: '3rem', alignItems: 'start' }}>
+            
+            {/* LEFT COLUMN: THE FORM */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+              
+              {/* STEP 1: CAUSE SELECTION */}
+              <motion.div 
+                initial={{ opacity: 0, x: -30 }} 
+                whileInView={{ opacity: 1, x: 0 }} 
+                viewport={{ once: true }}
+                style={{ background: '#fff', borderRadius: '24px', padding: '2.5rem', boxShadow: '0 10px 40px rgba(0,0,0,0.04)', border: '1px solid #edf2f7' }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '2rem' }}>
+                   <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'var(--color-primary)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 900, fontSize: '1.2rem' }}>1</div>
+                   <h2 style={{ fontSize: '1.5rem', margin: 0 }}>Select a Cause</h2>
+                </div>
+                
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
                   {CAUSES.map(c => (
                     <motion.button
                       key={c.id}
                       onClick={() => setCause(c.id)}
-                      whileHover={{ y: -3, boxShadow: `0 8px 24px ${c.color}25` }}
+                      whileHover={{ y: -5 }}
                       whileTap={{ scale: 0.98 }}
+                      className="creative-card"
                       style={{
-                        padding: '1.1rem', borderRadius: '16px',
-                        border: `2px solid ${cause === c.id ? c.color : `${c.color}30`}`,
-                        background: cause === c.id ? `${c.color}12` : `${c.color}05`,
-                        cursor: 'pointer', textAlign: 'left', transition: 'border-color 0.2s, background 0.2s', color: 'inherit',
-                        boxShadow: cause === c.id ? `0 4px 20px ${c.color}20` : 'none',
+                        padding: '1.5rem', borderRadius: '20px', cursor: 'pointer', textAlign: 'left',
+                        border: `2px solid ${cause === c.id ? c.color : '#f0f4f8'}`,
+                        background: cause === c.id ? c.color : '#fff',
+                        transition: 'all 0.3s',
+                        position: 'relative',
+                        overflow: 'hidden'
                       }}
                     >
-                      <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: `${c.color}15`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: c.color, marginBottom: '0.65rem' }}>{c.icon}</div>
-                      <div style={{ fontWeight: 800, fontSize: '0.9rem', marginBottom: '0.25rem', color: cause === c.id ? c.color : 'var(--text-primary)' }}>{c.label}</div>
-                      <div style={{ color: 'var(--text-secondary)', fontSize: '0.76rem', lineHeight: 1.4 }}>{c.desc}</div>
-                      {cause === c.id && <div style={{ marginTop: '0.6rem', display: 'flex', alignItems: 'center', gap: '4px', color: c.color, fontSize: '0.75rem', fontWeight: 700 }}><CheckCircle size={13} color={c.color} /> Selected</div>}
+                      {/* Suble background icon for active state */}
+                      {cause === c.id && <div style={{ position: 'absolute', right: '-10px', bottom: '-10px', opacity: 0.15, transform: 'rotate(-15deg)' }}>{React.cloneElement(c.icon as any, { size: 80 })}</div>}
+                      
+                      <div style={{ 
+                        width: 48, height: 48, borderRadius: '12px', 
+                        background: cause === c.id ? 'rgba(255,255,255,0.2)' : `${c.color}15`, 
+                        display: 'flex', alignItems: 'center', justifyContent: 'center', 
+                        color: cause === c.id ? 'white' : c.color, marginBottom: '1rem' 
+                      }}>
+                        {c.icon}
+                      </div>
+                      <div style={{ fontWeight: 800, fontSize: '1rem', color: cause === c.id ? 'white' : '#1a202c', marginBottom: '0.4rem' }}>{c.label}</div>
+                      <div style={{ fontSize: '0.8rem', color: cause === c.id ? 'rgba(255,255,255,0.9)' : '#718096', lineHeight: 1.5 }}>{c.desc}</div>
+                      {cause === c.id && <div style={{ marginTop: '0.75rem', display: 'flex', alignItems: 'center', gap: 6, color: 'white', fontSize: '0.75rem', fontWeight: 700 }}><CheckCircle size={14} /> Active Selection</div>}
                     </motion.button>
                   ))}
                 </div>
               </motion.div>
 
-              {/* Step 2: Amount */}
-              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} style={{ background: 'rgba(26,86,219,0.04)', border: '1px solid rgba(26,86,219,0.12)', borderRadius: '20px', padding: '2rem', marginBottom: '1.5rem' }}>
-                <h2 style={{ fontSize: '1.3rem', marginBottom: '0.25rem' }}>
-                  <span style={{ color: 'var(--color-gold)', marginRight: '0.5rem' }}>02</span> Choose Amount
-                </h2>
-                <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '1.5rem' }}>
-                  Select or enter a custom amount in Malawian Kwacha (Mk).
-                </p>
+              {/* STEP 2: AMOUNT SELECTION */}
+              <motion.div 
+                initial={{ opacity: 0, x: -30 }} 
+                whileInView={{ opacity: 1, x: 0 }} 
+                viewport={{ once: true }}
+                transition={{ delay: 0.2 }}
+                style={{ background: '#fff', borderRadius: '24px', padding: '2.5rem', boxShadow: '0 10px 40px rgba(0,0,0,0.04)', border: '1px solid #edf2f7' }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '2rem' }}>
+                   <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'var(--color-gold)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 900, fontSize: '1.2rem' }}>2</div>
+                   <h2 style={{ fontSize: '1.5rem', margin: 0 }}>Choose Amount</h2>
+                </div>
 
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.6rem', marginBottom: '1.5rem' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.75rem', marginBottom: '1.5rem' }}>
                   {AMOUNTS.map(val => (
                     <button key={val} onClick={() => { setAmount(val); setCustom(''); }} style={{
-                      padding: '0.65rem 1.1rem', borderRadius: '50px', cursor: 'pointer',
-                      fontWeight: 700, fontSize: '0.88rem', transition: 'all 0.2s',
-                      border: `2px solid ${amount === val && !custom ? 'var(--color-primary)' : '#333'}`,
-                      background: amount === val && !custom ? 'var(--gradient-blue)' : 'transparent',
-                      color: 'white',
-                      boxShadow: amount === val && !custom ? 'var(--shadow-blue)' : 'none',
+                      padding: '1rem 0.5rem', borderRadius: '16px', cursor: 'pointer',
+                      fontWeight: 800, fontSize: '0.9rem', transition: 'all 0.2s',
+                      border: `2px solid ${amount === val && !custom ? 'var(--color-primary)' : '#f0f4f8'}`,
+                      background: amount === val && !custom ? 'var(--color-primary)' : '#fff',
+                      color: amount === val && !custom ? 'white' : '#4a5568',
                     }}>
                       Mk {val.toLocaleString()}
                     </button>
                   ))}
                 </div>
 
-                <input
-                  className="form-input"
-                  type="number"
-                  value={custom}
-                  onChange={e => setCustom(e.target.value)}
-                  placeholder="Or enter custom amount (Mk)"
-                  style={{ textAlign: 'center', fontSize: '1.1rem', marginBottom: '1.25rem' }}
-                />
+                <div style={{ position: 'relative', marginBottom: '1.5rem' }}>
+                   <input className="form-input" type="number" value={custom} onChange={e => setCustom(e.target.value)}
+                     placeholder="Enter custom amount (Mk)" style={{ textAlign: 'center', fontSize: '1.1rem', padding: '1.25rem', borderRadius: '16px' }} />
+                   <div style={{ position: 'absolute', left: '1.25rem', top: '50%', transform: 'translateY(-50%)', fontWeight: 700, color: '#a0aec0' }}>Mk</div>
+                </div>
 
                 {/* Recurring toggle */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem', padding: '0.9rem 1.1rem', borderRadius: '12px', background: recurring ? 'rgba(26,86,219,0.05)' : '#fff', border: `1px solid ${recurring ? 'rgba(26,86,219,0.3)' : '#ddd'}`, marginBottom: '1.25rem', cursor: 'pointer', transition: 'all 0.2s' }}
-                  onClick={() => setRecurring(r => !r)}>
-                  <RefreshCw size={18} color={recurring ? 'var(--color-primary)' : '#888'} />
-                  <div style={{ flex: 1 }}>
-                    <div style={{ fontWeight: 700, fontSize: '0.9rem', color: recurring ? 'var(--color-primary)' : 'var(--text-primary)' }}>Monthly Recurring Donation</div>
-                    <div style={{ fontSize: '0.78rem', color: 'var(--text-secondary)' }}>Give every month — cancel any time. More impact for students.</div>
+                <div onClick={() => setRecurring(r => !r)} style={{
+                  display: 'flex', alignItems: 'center', gap: '1rem', padding: '1.25rem',
+                  borderRadius: '16px', cursor: 'pointer', marginBottom: '1.5rem',
+                  background: recurring ? 'rgba(26,86,219,0.05)' : '#f8fafc',
+                  border: `2px solid ${recurring ? 'rgba(26,86,219,0.2)' : '#f1f5f9'}`,
+                  transition: 'all 0.2s'
+                }}>
+                  <div style={{ background: recurring ? 'var(--color-primary)' : '#cbd5e0', padding: '0.5rem', borderRadius: '10px', color: 'white' }}>
+                    <RefreshCw size={20} className={recurring ? 'animate-spin-slow' : ''} />
                   </div>
-                  <div style={{ width: '40px', height: '22px', borderRadius: '11px', background: recurring ? 'var(--color-primary)' : '#ddd', position: 'relative', transition: 'background 0.2s', flexShrink: 0 }}>
-                    <div style={{ position: 'absolute', top: '3px', left: recurring ? '19px' : '3px', width: '16px', height: '16px', borderRadius: '50%', background: 'white', transition: 'left 0.2s' }} />
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontWeight: 800, fontSize: '1rem', color: recurring ? 'var(--color-primary)' : '#2d3748' }}>Monthly Support</div>
+                    <div style={{ fontSize: '0.85rem', color: '#718096' }}>Automate your impact every month.</div>
+                  </div>
+                  <div style={{ width: 44, height: 24, borderRadius: 12, background: recurring ? 'var(--color-primary)' : '#d1d5db', position: 'relative', transition: 'background 0.3s' }}>
+                    <div style={{ position: 'absolute', top: 3, left: recurring ? 23 : 3, width: 18, height: 18, borderRadius: '50%', background: 'white', transition: 'left 0.3s' }} />
                   </div>
                 </div>
 
-                {/* Impact preview */}
+                {/* Impact Visualizer */}
                 <AnimatePresence mode="wait">
-                  <motion.div key={finalAmount} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.3 }}
-                    style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem', padding: '1rem', borderRadius: '12px', background: 'rgba(212,175,55,0.08)', border: '1px solid rgba(212,175,55,0.2)' }}>
-                    <Zap size={18} color="var(--color-gold)" style={{ flexShrink: 0, marginTop: '2px' }} />
+                  <motion.div key={finalAmount} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }}
+                    style={{ 
+                      display: 'flex', gap: '1rem', padding: '1.5rem', borderRadius: '20px', 
+                      background: 'linear-gradient(135deg, rgba(212,175,55,0.05), rgba(212,175,55,0.15))', 
+                      border: '1px solid rgba(212,175,55,0.3)', marginBottom: '2rem' 
+                    }}>
+                    <div style={{ background: 'var(--color-gold)', width: 40, height: 40, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', flexShrink: 0 }}>
+                      <Zap size={20} fill="white" />
+                    </div>
                     <div>
-                      <div style={{ fontSize: '0.75rem', color: 'var(--color-gold)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '0.25rem' }}>Your Impact</div>
-                      <div style={{ color: 'rgba(255,255,255,0.85)', fontSize: '0.95rem', lineHeight: 1.6 }}>
-                        Mk {(finalAmount || 0).toLocaleString()} — {getImpact(finalAmount || 0)}
+                      <div style={{ fontSize: '0.75rem', color: 'var(--color-gold-dark)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: 1.5, marginBottom: 4 }}>Your Power</div>
+                      <div style={{ color: '#2d3748', fontSize: '1.05rem', fontWeight: 600, lineHeight: 1.4 }}>
+                        Mk {(finalAmount || 0).toLocaleString()} <ArrowRight size={14} style={{ display: 'inline', margin: '0 4px' }} /> {getImpact(finalAmount || 0)}
                       </div>
                     </div>
                   </motion.div>
                 </AnimatePresence>
-              </motion.div>
 
-              {/* Step 3: Donate button */}
-              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
-                <button
-                  className="pill-btn"
-                  style={{ width: '100%', fontSize: '1.15rem', padding: '1.15rem', boxShadow: 'var(--shadow-blue)' }}
-                  onClick={() => setModalOpen(true)}
+                <button 
+                  className="pill-btn animate-glow-blue" 
+                  style={{ width: '100%', fontSize: '1.25rem', padding: '1.5rem', height: 'auto' }}
+                  onClick={() => setModalOpen(true)} 
                   disabled={!finalAmount || finalAmount < 100}
                 >
-                  <Heart size={20} fill="white" />
-                  {recurring ? '🔄 ' : ''}Donate Mk {(finalAmount || 0).toLocaleString()} {recurring ? 'Monthly' : 'Now'}
+                  <Heart size={22} fill="white" />
+                  {recurring ? '🔄 ' : ''}Donate Mk {(finalAmount || 0).toLocaleString()} Now
                 </button>
-                <p style={{ textAlign: 'center', color: 'var(--text-secondary)', fontSize: '0.8rem', marginTop: '1rem' }}>
-                  🔒 Secured by SSL · 100% goes to students · Receipt via email
-                </p>
-              </motion.div>
-
-              {/* Payment methods strip */}
-              <div style={{ marginTop: '2.5rem', textAlign: 'center' }}>
-                <p style={{ color: 'var(--text-tertiary)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '1.5px', marginBottom: '1rem' }}>Accepted Payment Methods</p>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', justifyContent: 'center' }}>
-                  {[
-                    { name: 'Airtel Money',  color: '#ce1126', emoji: '📱' },
-                    { name: 'TNM Mpamba',   color: '#ffd700', emoji: '📲' },
-                    { name: 'National Bank', color: '#003366', emoji: '🏦' },
-                    { name: 'FDH Bank',     color: '#26bde2', emoji: '💳' },
-                    { name: 'PayPal',       color: '#003087', emoji: '🌐' },
-                    { name: 'Standard Bank', color: '#1a56db', emoji: '🏛️' },
-                  ].map((p, i) => (
-                    <div key={i} style={{
-                      padding: '0.5rem 0.9rem', borderRadius: '8px', fontSize: '0.8rem', fontWeight: 600,
-                      background: `${p.color}08`, border: `1px solid ${p.color}22`, color: 'var(--text-primary)',
-                      display: 'flex', alignItems: 'center', gap: '0.4rem',
-                    }}>
-                      <span>{p.emoji}</span> {p.name}
-                    </div>
-                  ))}
+                <div style={{ display: 'flex', justifyContent: 'center', gap: '1.5rem', marginTop: '1.5rem', opacity: 0.6 }}>
+                   <Shield size={16} /> <Star size={16} /> <CheckCircle size={16} />
                 </div>
-              </div>
+              </motion.div>
             </div>
 
-            {/* RIGHT – Leaderboard + Trust Badges */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-
-              {/* Leaderboard */}
-              <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.25 }} style={{ padding: '1.75rem', background: 'rgba(212,175,55,0.06)', border: '1px solid rgba(212,175,55,0.2)', borderRadius: '20px' }}>
+            {/* RIGHT COLUMN: TRUST & VISUALS */}
+            <div style={{ position: 'sticky', top: '100px', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+              
+              {/* ✨ CREATIVE ELEMENT 4: LIVE FEED PULSE ✨ */}
+              <motion.div 
+                initial={{ opacity: 0, x: 30 }} 
+                animate={{ opacity: 1, x: 0 }}
+                style={{ background: '#fff', borderRadius: '24px', padding: '2rem', border: '1px solid #edf2f7', boxShadow: '0 4px 20px rgba(0,0,0,0.03)' }}
+              >
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.5rem' }}>
-                  <Trophy size={22} color="var(--color-gold)" />
-                  <div>
-                    <h3 style={{ fontSize: '1.1rem', margin: 0 }}>Top Donors</h3>
-                    <p style={{ color: 'var(--text-secondary)', fontSize: '0.78rem', margin: 0 }}>Hall of Fame — April 2026</p>
-                  </div>
+                  <div className="animate-pulse-ring" style={{ width: 10, height: 10, borderRadius: '50%', background: '#10b981' }} />
+                  <h3 style={{ fontSize: '1.1rem', margin: 0, fontWeight: 800 }}>Recent Impact</h3>
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
-                  {LEADERBOARD.map((d, i) => (
-                    <motion.div
-                      key={d.rank}
-                      className="leaderboard-row"
-                      initial={{ opacity: 0, x: 20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.3 + i * 0.07 }}
-                    >
-                      <span style={{ fontSize: '1.3rem', flexShrink: 0 }}>{d.badge}</span>
-                      <span style={{ fontSize: '1.4rem', flexShrink: 0 }}>{d.avatar}</span>
-                      <div style={{ flex: 1, minWidth: 0 }}>
-                        <div style={{ fontWeight: 700, fontSize: '0.9rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{d.name}</div>
-                        <div style={{ color: 'var(--text-secondary)', fontSize: '0.75rem' }}>Rank #{d.rank}</div>
+                
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+                  {[
+                    { name: 'Chifundo M.', amount: 'Mk 15k', cause: 'School Fees', time: '2m ago' },
+                    { name: 'Anonymous', amount: 'Mk 50k', cause: 'ICT Fund', time: '8m ago' },
+                    { name: 'John D.', amount: 'Mk 5k', cause: 'Books', time: '15m ago' },
+                  ].map((d, i) => (
+                    <motion.div key={i} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: i * 0.1 }}
+                      style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '1rem', borderBottom: i < 2 ? '1px solid #f1f5f9' : 'none' }}>
+                      <div>
+                        <div style={{ fontWeight: 700, fontSize: '0.95rem' }}>{d.name}</div>
+                        <div style={{ fontSize: '0.8rem', color: '#718096' }}>{d.cause}</div>
                       </div>
-                      <div style={{ fontFamily: 'Outfit', fontWeight: 900, fontSize: '0.9rem', color: d.rank <= 3 ? 'var(--color-gold)' : 'var(--color-primary)', flexShrink: 0 }}>
-                        {d.amount}
+                      <div style={{ textAlign: 'right' }}>
+                        <div style={{ fontWeight: 900, color: 'var(--color-primary)' }}>{d.amount}</div>
+                        <div style={{ fontSize: '0.75rem', color: '#a0aec0' }}>{d.time}</div>
                       </div>
-                    </motion.div>
-                  ))}
-                </div>
-                <div style={{ marginTop: '1.25rem', textAlign: 'center', fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
-                  🇲🇼 Donate today to appear on this board
-                </div>
-              </motion.div>
-
-              {/* Trust Badges */}
-              <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.4 }}>
-                <div style={{ marginBottom: '1rem' }}>
-                  <div className="section-label"><Shield size={11} /> Why Trust Us</div>
-                </div>
-                <div className="grid-2" style={{ gap: '0.85rem' }}>
-                  {TRUST_BADGES.map((b, i) => (
-                    <motion.div
-                      key={i}
-                      style={{ padding: '1.25rem', display: 'flex', flexDirection: 'column', gap: '0.6rem', borderRadius: '16px', background: i % 2 === 0 ? 'rgba(26,86,219,0.06)' : 'rgba(0,154,68,0.06)', border: `1px solid ${i % 2 === 0 ? 'rgba(26,86,219,0.12)' : 'rgba(0,154,68,0.12)'}` }}
-                      initial={{ opacity: 0, y: 15 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.45 + i * 0.08 }}
-                      whileHover={{ y: -3 }}
-                    >
-                      <div style={{ color: 'var(--color-primary)' }}>{b.icon}</div>
-                      <div style={{ fontWeight: 700, fontSize: '0.9rem' }}>{b.title}</div>
-                      <div style={{ color: 'var(--text-secondary)', fontSize: '0.78rem', lineHeight: 1.5 }}>{b.desc}</div>
                     </motion.div>
                   ))}
                 </div>
               </motion.div>
 
-              {/* Live donor feed */}
-              <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.5 }} style={{ padding: '1.5rem', background: 'rgba(0,154,68,0.05)', border: '1px solid rgba(0,154,68,0.15)', borderRadius: '20px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
-                  <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#22c55e', animation: 'pulse-ring 2s infinite' }} />
-                  <span style={{ fontWeight: 700, fontSize: '0.9rem' }}>Live Donations</span>
-                </div>
+              {/* ✨ CREATIVE ELEMENT 5: TRUST BADGES WITH GLOW ✨ */}
+              <div className="grid-2" style={{ gap: '1rem' }}>
                 {[
-                  { name: 'Chifundo D.',  amount: 'Mk 15,000', cause: 'School Fees',  time: '2m ago'  },
-                  { name: 'Anonymous',    amount: 'Mk 50,000', cause: 'ICT Laptop',   time: '8m ago'  },
-                  { name: 'John Phiri',   amount: 'Mk 5,000',  cause: 'General Fund', time: '14m ago' },
-                  { name: 'Grace M.',     amount: 'Mk 25,000', cause: 'Housing',      time: '31m ago' },
-                ].map((d, i) => (
-                  <motion.div key={i} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.6 + i * 0.08 }}
-                    style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0.6rem 0', borderBottom: i < 3 ? '1px solid #eee' : 'none' }}>
-                    <div>
-                      <div style={{ fontWeight: 600, fontSize: '0.85rem', color: 'var(--text-primary)' }}>❤️ {d.name}</div>
-                      <div style={{ color: 'var(--text-secondary)', fontSize: '0.73rem' }}>{d.cause}</div>
-                    </div>
-                    <div style={{ textAlign: 'right' }}>
-                      <div style={{ fontWeight: 700, fontSize: '0.88rem', color: 'var(--color-primary)' }}>{d.amount}</div>
-                      <div style={{ color: 'var(--text-tertiary)', fontSize: '0.7rem' }}>{d.time}</div>
-                    </div>
-                  </motion.div>
+                  { icon: <Shield size={22} />, title: '100% Secure', color: '#1a56db' },
+                  { icon: <Users size={22} />, title: 'Verified', color: '#009a44' },
+                ].map((b, i) => (
+                  <div key={i} style={{ background: '#fff', padding: '1.5rem', borderRadius: '20px', textAlign: 'center', border: `1px solid ${b.color}15` }}>
+                    <div style={{ color: b.color, marginBottom: '0.75rem', display: 'flex', justifyContent: 'center' }}>{b.icon}</div>
+                    <div style={{ fontWeight: 800, fontSize: '0.9rem' }}>{b.title}</div>
+                  </div>
                 ))}
-              </motion.div>
+              </div>
+
+              {/* ✨ CREATIVE ELEMENT 6: CTA BANNER ✨ */}
+              <div style={{ 
+                background: 'linear-gradient(135deg, #000, #1a202c)', 
+                borderRadius: '24px', 
+                padding: '2.5rem', 
+                color: 'white',
+                textAlign: 'center',
+                position: 'relative',
+                overflow: 'hidden'
+              }}>
+                <div style={{ position: 'absolute', top: '-20px', right: '-20px', opacity: 0.1 }}><Trophy size={120} /></div>
+                <h3 style={{ fontSize: '1.25rem', marginBottom: '1rem', position: 'relative' }}>Join the Donor Circle</h3>
+                <p style={{ fontSize: '0.9rem', color: 'rgba(255,255,255,0.7)', marginBottom: '1.5rem', lineHeight: 1.6 }}>
+                  Create an account to track your history and earn exclusive impact badges.
+                </p>
+                <Link to="/login" className="pill-btn pill-btn-ghost" style={{ border: '1px solid rgba(255,255,255,0.3)', width: 'auto', padding: '0.75rem 1.5rem' }}>
+                  Sign Up Free <ArrowRight size={16} />
+                </Link>
+              </div>
+
             </div>
           </div>
         </div>
       </section>
 
-      {/* Payment Modal */}
       {modalOpen && <PaymentModal amount={finalAmount} onClose={() => setModalOpen(false)} />}
     </AnimatedLayout>
   );
