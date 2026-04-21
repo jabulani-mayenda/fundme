@@ -50,11 +50,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           },
         },
       });
-      if (error) throw error;
+      if (error) {
+        console.error('❌ VERBOSE GOOGLE AUTH ERROR DETAILS:', {
+          message: error.message,
+          name: error.name,
+          stack: error.stack,
+          status: (error as any).status
+        });
+        throw error;
+      }
       if (data.url) window.location.href = data.url;
     } catch (error: any) {
-      console.error('Detailed Google sign-in error:', error);
-      alert('Google Sign-In failed. Please try Email or Phone method.');
+      console.error('❌ GOOGLE AUTH ERROR:', error);
+      const msg = error.message || 'Unknown Google Auth Error';
+      alert(`Google Sign-In failed: ${msg}. Check Supabase Dashboard Redirect URLs.`);
     }
   };
 
@@ -63,13 +72,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       email,
       options: { emailRedirectTo: `${window.location.origin}/dashboard` },
     });
-    if (error) return { error: error.message };
+    if (error) {
+      console.error('❌ EMAIL AUTH ERROR:', error);
+      return { error: error.message };
+    }
     return { success: true };
   };
 
   const signInWithPhone = async (phone: string) => {
     const { error } = await supabase.auth.signInWithOtp({ phone });
-    if (error) return { error: error.message };
+    if (error) {
+      console.error('❌ PHONE AUTH ERROR:', error);
+      return { error: error.message };
+    }
     return { success: true };
   };
 

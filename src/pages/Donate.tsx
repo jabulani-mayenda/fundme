@@ -99,8 +99,8 @@ export const Donate: React.FC = () => {
         {/* ✨ CREATIVE ELEMENT 3: WAVE DIVIDER ✨ */}
         <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '100px', background: 'linear-gradient(to bottom, #0a0f1e, transparent)', opacity: 0.1 }} />
 
-        <div className="container" style={{ maxWidth: '1100px', margin: '0 auto' }}>
-          <div className="grid-2" style={{ gap: '3rem', alignItems: 'start' }}>
+        <div className="container" style={{ maxWidth: '1100px', margin: '0 auto', display: 'block', width: '100%', clear: 'both' }}>
+          <div className="grid-2" style={{ width: '100%', gap: 'clamp(1.5rem, 5vw, 3.5rem)', alignItems: 'start' }}>
             
             {/* LEFT COLUMN: THE FORM */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
@@ -277,7 +277,7 @@ export const Donate: React.FC = () => {
               </motion.div>
 
               {/* ✨ CREATIVE ELEMENT 5: TRUST BADGES WITH GLOW ✨ */}
-              <div className="grid-2" style={{ gap: '1rem' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '1rem' }}>
                 {[
                   { icon: <Shield size={22} />, title: '100% Secure', color: '#1a56db' },
                   { icon: <Users size={22} />, title: 'Verified', color: '#009a44' },

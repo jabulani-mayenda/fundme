@@ -65,9 +65,11 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+  width: 100%;
   min-height: 100vh;
   padding-bottom: 70px; /* mobile bottom nav */
 }
+#root { width: 100%; overflow-x: hidden; }
 @media (min-width: 769px) { body { padding-bottom: 0; } }
 
 h1,h2,h3,h4,h5,h6 {
@@ -87,7 +89,27 @@ img { max-width: 100%; display: block; }
 ::-webkit-scrollbar-thumb { background: var(--color-primary); border-radius: 2px; }
 
 /* ─── Layout ─────────────────────────────────────────────────────── */
-.container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 1.25rem; }
+.container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; position: relative; }
+
+.grid-1 { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+.grid-2 { display: grid; grid-template-columns: 1fr; gap: 1.5rem; width: 100%; }
+.grid-3 { display: grid; grid-template-columns: 1fr; gap: 1.5rem; width: 100%; }
+.grid-4 { display: grid; grid-template-columns: 1fr; gap: 1.25rem; width: 100%; }
+
+@media (min-width: 640px) {
+  .grid-2 { grid-template-columns: repeat(2, 1fr); }
+  .grid-3 { grid-template-columns: repeat(2, 1fr); }
+  .grid-4 { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 900px) {
+  .grid-2 { grid-template-columns: repeat(2, 1fr); gap: 2.5rem; }
+  .grid-3 { grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+  .grid-4 { grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+}
+
+.no-overflow { overflow: hidden; max-width: 100%; }
+.full-center { display: flex; align-items: center; justify-content: center; text-align: center; }
 
 /* ─── Glass / Panels ─────────────────────────────────────────────── */
 .glass-panel {

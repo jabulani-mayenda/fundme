@@ -34,7 +34,7 @@ export const Awards: React.FC = () => {
   return (
     <AnimatedLayout>
       {/* ── SPOTLIGHT HERO ─────────────────────────────── */}
-      <section style={{ position: 'relative', minHeight: '100vh', background: '#020202', display: 'flex', alignItems: 'center', overflow: 'hidden' }}>
+      <section style={{ position: 'relative', minHeight: '100vh', background: '#0a0f1e', display: 'flex', alignItems: 'center', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 30% 50%, rgba(212,175,55,0.12) 0%, transparent 60%), radial-gradient(ellipse at 70% 50%, rgba(26,86,219,0.08) 0%, transparent 60%)' }} />
         <div className="mw-stripe" style={{ position: 'absolute', bottom: 0, left: 0, right: 0 }} />
 

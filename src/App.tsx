@@ -17,7 +17,9 @@ import { News } from './pages/News';
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { user, isLoading } = useAuth();
   const location = useLocation();
-  if (isLoading) return <div style={{ minHeight: '100vh', background: '#000' }} />;
+  if (isLoading) return <div style={{ minHeight: '100vh', background: '#f8faff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+    <div className="animate-spin" style={{ width: 40, height: 40, border: '4px solid #1a56db', borderTopColor: 'transparent', borderRadius: '50%' }} />
+  </div>;
   if (!user) return <Navigate to="/login" state={{ from: location }} replace />;
   return <>{children}</>;
 };
@@ -25,7 +27,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 function AppInner() {
   const location = useLocation();
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: '#000' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: '#f8faff', overflowX: 'hidden' }}>
       <Header />
       {/* Top padding so content doesn't hide under fixed header */}
       <main style={{ flex: 1, paddingTop: '70px' }}>

@@ -34,7 +34,7 @@ export const Internships: React.FC = () => {
   return (
     <AnimatedLayout>
       {/* ── HERO ─────────────────────────────────────── */}
-      <section style={{ position: 'relative', minHeight: '60vh', background: '#050505', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <section style={{ position: 'relative', minHeight: '60vh', background: '#0a0f1e', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <div style={{ position: 'absolute', inset: 0, backgroundImage: 'url("/graduation.png")', backgroundSize: 'cover', backgroundPosition: 'center top', opacity: 0.25 }} />
         <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at center, rgba(212,175,55,0.08) 0%, transparent 70%)' }} />
 
