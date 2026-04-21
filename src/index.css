@@ -476,3 +476,19 @@ img { max-width: 100%; display: block; }
   background: linear-gradient(90deg, #000 0%, #ce1126 33%, #009a44 66%, #000 100%);
   width: 100%;
 }
+
+/* ─── Utility: prevent horizontal scroll ────────────────────── */
+.no-overflow { overflow-x: hidden; }
+
+/* ─── Mobile: remove border-right on stat items ─────────────── */
+@media (max-width: 640px) {
+  .mobile-no-border { border-right: none !important; }
+}
+
+/* ─── Donate page: causes grid 1 col on very small screens ──── */
+@media (max-width: 480px) {
+  .donate-causes .grid-2 { grid-template-columns: 1fr; }
+}
+
+/* ─── Body scroll lock helper (used by modal) ───────────────── */
+body.modal-open { overflow: hidden; }

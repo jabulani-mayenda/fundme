@@ -73,9 +73,9 @@ export const Home: React.FC = () => {
       {/* ── HERO ──────────────────────────────────────── */}
       <section style={{ position: 'relative', height: 'calc(100vh - 70px)', width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', overflow: 'hidden', marginTop: '-70px' }}>
         <img src="/hero.png" alt="Malawian students studying" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top' }} />
-        {/* layered overlays for drama */}
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.0) 30%, rgba(0,0,0,0.85) 100%)' }} />
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(90deg, rgba(26,86,219,0.15) 0%, transparent 60%)' }} />
+        {/* layered overlays — kept light so image shows through */}
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.0) 25%, rgba(0,0,0,0.62) 100%)' }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(90deg, rgba(26,86,219,0.08) 0%, transparent 60%)' }} />
         <div className="mw-stripe" style={{ position: 'absolute', bottom: 0, left: 0, right: 0 }} />
 
         {/* particles */}
